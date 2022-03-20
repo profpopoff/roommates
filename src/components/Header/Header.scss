@@ -1,0 +1,102 @@
+@import '../../styles/variables';
+
+.primary-header {
+   background-color: getColor(background-element);
+   -moz-box-shadow: 0px 4px 30px rgba(0, 0, 0, 0.08);
+   -webkit-box-shadow:0px 4px 30px rgba(0, 0, 0, 0.08);
+   box-shadow: 0px 4px 30px rgba(0, 0, 0, 0.08);
+
+   &--container {
+      padding: 1.75em clamp(1em, 3vw, 3.75em);
+      margin-inline: auto;
+      max-width: 120rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+   }
+   
+   .logo {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      gap: .75rem;
+
+      &-image {
+         width: 2.5rem;
+      }
+
+      &-title {
+         font-size: 1.875em;
+         color: getColor(text-main);
+         -webkit-touch-callout: none;
+         -webkit-user-select: none;
+         -khtml-user-select: none;
+         -moz-user-select: none;
+         -ms-user-select: none;
+         user-select: none;
+
+         span {
+            font-weight: 300;
+         }
+      }
+   }
+
+   .search-form {
+      width: clamp(15rem, 24vw, 30rem);
+      position: relative;
+      
+
+      .search-input {
+         width: 100%;
+         padding: 1.25em 4em 1.25em 1.875em;
+         border-radius: 0.75em;
+         background-color: getColor(background-input);
+         border: none;
+         color: getColor(text-main);
+         font-weight: 400;
+
+         &:focus {
+            outline: none;
+         }
+      }
+
+      .search-button {
+         padding: .6rem;
+         font-size: 1.2rem;
+         position: absolute;
+         right: 1rem;
+         top: 50%;
+         transform: translateY(-50%);
+         border-radius: 50%;
+         background-color: getColor(accent-color);
+         border: none;
+         cursor: pointer;
+         
+         .search-icon {
+            display: block;
+            color: getColor(background-element);
+         }
+      }
+   }
+
+   .primary-navigation {
+      display: flex;
+      gap: clamp(.5em, 1vw, 1.5em);
+      list-style: none;
+      align-items: center;
+      
+      &--link {
+         border-radius: 40%;
+         font-size: 1.5rem;
+         padding: .75rem;
+         aspect-ratio: 1;
+         color: getColor(text-grey);
+         transition: .3s;
+
+         &.active {
+            color: getColor(accent-color);
+         }
+      }
+   }
+}
+

@@ -1,0 +1,41 @@
+@import '../../styles/variables';
+
+// * global
+.wrapper {
+   font-family: 'Roboto', sans-serif;
+   font-weight: 500;
+   font-size: 1rem;
+   color: getColor(text-main);
+   background-color: getColor(background-main);
+   min-height: 100vh;
+   display: grid;
+   grid-template-rows: min-content 1fr;
+   overflow-x: hidden;
+}
+
+
+// * homepage
+.container--home {
+   padding-top: clamp(1em, 3vw, 2.75em);
+   display: grid;
+   gap: clamp(1em, 3vw, 3.75em);
+   grid-template-columns: minmax(0, 1fr) minmax(0, 45rem) minmax(0, 65rem) minmax(0, 1fr);
+   grid-template-rows: min-content 1fr;
+   grid-template-areas: 
+   '. filters map .'
+   '. posts map .';
+
+   .filters {
+      grid-area: filters;
+   }
+
+   .posts {
+      grid-area: posts;
+      background-color: red;
+   }
+
+   .map {
+      grid-area: map;
+      background-color: red;
+   }
+}

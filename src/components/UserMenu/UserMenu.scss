@@ -1,0 +1,93 @@
+@import '../../styles/variables';
+
+.user-menu {
+   padding-inline: 1.5rem;
+   border-left: 1px solid getColor(text-grey);
+   position: relative;
+
+   .user-button {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      cursor: pointer;
+
+      &--image {
+         width: 3rem;
+         aspect-ratio: 1;
+         border-radius: 50%;
+      }
+      &--name {
+         display: inline-block;
+         max-width: 15rem;
+         max-height: 3rem;
+         overflow: hidden;
+         white-space: pre-wrap;
+         -webkit-touch-callout: none;
+         -webkit-user-select: none;
+         -khtml-user-select: none;
+         -moz-user-select: none;
+         -ms-user-select: none;
+         user-select: none;
+      }
+   }
+
+   .user-menu--list {
+      position: absolute;
+      right: 0;
+      top: 10rem;
+      border-radius: 0.75rem;
+      padding: 1.25rem 2rem;
+      list-style: none;
+      background-color: getColor(background-element);
+      -webkit-filter: drop-shadow(0 0 .05rem getColor(accent-color));
+      filter        : drop-shadow(0 0 .05rem getColor(accent-color));
+      -ms-filter    : "progid:DXImageTransform.Microsoft.Dropshadow(OffX=0, OffY=0, Color='#444')";
+      filter        : "progid:DXImageTransform.Microsoft.Dropshadow(OffX=0, OffY=0, Color='#444')";
+      transition: 0.5s;
+      visibility: hidden;
+      opacity: 0;
+
+      &[data-visible="true"] {
+         top: 4.5rem;
+         visibility: visible;
+         opacity: 1;  
+      }
+
+      &::after {
+         content: "";
+         position: absolute;
+         top: -.5rem;
+         right: 2.5rem;
+         width: 20px;
+         height: 20px;
+         background-color: inherit;
+         transform: rotate(45deg);
+      }
+
+      li {
+         .user-menu--link {
+            font-weight: 400;
+            color: getColor(text-main);
+            text-decoration: none;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+
+            .menu-icon {
+               margin-right: .7rem;
+            }
+
+            &.active {
+               color: getColor(accent-color)
+            }
+         }
+
+         &:not(:last-child) {
+            margin-bottom: .5rem;
+         }
+      }
+   }
+}
