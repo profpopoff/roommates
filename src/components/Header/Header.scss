@@ -2,9 +2,6 @@
 
 .primary-header {
    background-color: getColor(background-element);
-   -moz-box-shadow: 0px 4px 30px rgba(0, 0, 0, 0.08);
-   -webkit-box-shadow:0px 4px 30px rgba(0, 0, 0, 0.08);
-   box-shadow: 0px 4px 30px rgba(0, 0, 0, 0.08);
 
    &--container {
       padding: 1.75em clamp(1em, 3vw, 3.75em);
@@ -50,7 +47,7 @@
          width: 100%;
          padding: 1.25em 4em 1.25em 1.875em;
          border-radius: 0.75em;
-         background-color: getColor(background-input);
+         background-color: getColor(background-main);
          border: none;
          color: getColor(text-main);
          font-weight: 400;

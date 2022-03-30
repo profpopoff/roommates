@@ -45,6 +45,7 @@ export default function Filters() {
          <label ref={ref} className="filters--sort-by" data-visible={showSortBy} onClick={toggleShowSortBy}>Sort by: <span>{sortBy}</span>
             <ul>
                {sortBy !== 'Price' && <li onClick={() => {setSortBy('Price'); toggleShowSortBy()}}>Price</li>}
+               {sortBy !== 'Rating' && <li onClick={() => {setSortBy('Rating'); toggleShowSortBy()}}>Rating</li>}
                {sortBy !== 'Date' && <li onClick={() => {setSortBy('Date'); toggleShowSortBy()}}>Date</li>}
                {sortBy !== 'Area' && <li onClick={() => {setSortBy('Area'); toggleShowSortBy()}}>Area</li>}
             </ul>
