@@ -1,0 +1,169 @@
+{
+   "apartments": [
+      {
+         "id": "123dsa2asdcx",
+         "title": "The People's Brownstone",
+         "address": "Кронверский пр., 4",
+         "price": {
+            "amount": 3000,
+            "currency": "$",
+            "per": "month"
+         },
+         "images": {
+            "jpg": "../../assets/test.jpg",
+            "png": "",
+            "webp": ""
+         },
+         "desc": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+         "conveniences": ["wifi","air conditioning","kitchen","heating","smokers","parking"],
+         "stats": {
+            "floor": 3,
+            "area": 50,
+            "Rooms": 4
+         },
+         "landlordName": "John",
+         "landlordPhone": "+78005553535",
+         "roommates": ["Roni","Alex","Mike"],
+         "reviews": [
+            {
+               "reviewer": "Bill",
+               "rating": 3,
+               "feedback": "very nice"
+            }
+         ]
+      },
+      {
+         "id": "123dsa2asdcz",
+         "title": "Lovely room in Manhattan",
+         "address": "Pospect Prosvesheniya, 16",
+         "price": {
+            "amount": 2440,
+            "currency": "$",
+            "per": "month"
+         },
+         "images": {
+            "jpg": "../../assets/test2.jpg",
+            "png": "",
+            "webp": ""
+         },
+         "desc": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+         "conveniences": ["wifi","air conditioning","kitchen","heating","smokers","parking","Balcony","Recycling","Animal friendly"],
+         "stats": {
+            "floor": 15,
+            "area": 36,
+            "Rooms": 2
+         },
+         "landlordName": "Pavel",
+         "landlordPhone": "+78003651234",
+         "roommates": ["Richard","Gill"],
+         "reviews": [
+            {
+               "reviewer": "Bill",
+               "rating": 4,
+               "feedback": "very very nice"
+            },
+            {
+               "reviewer": "Roy",
+               "rating": 5,
+               "feedback": "fine"
+            }
+         ]
+      },
+      {
+         "id": "123dsa2asdcc",
+         "title": "Dibenko ept",
+         "address": "Ладожская, 7",
+         "price": {
+            "amount": 1337,
+            "currency": "$",
+            "per": "month"
+         },
+         "images": {
+            "jpg": "../../assets/test2.jpg",
+            "png": "",
+            "webp": ""
+         },
+         "desc": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+         "conveniences": ["wifi","air conditioning","kitchen","heating","smokers","parking"],
+         "stats": {
+            "floor": 3,
+            "area": 50,
+            "Rooms": 4
+         },
+         "landlordName": "propopo",
+         "landlordPhone": "+78005553535",
+         "roommates": ["Roni","Alex","Mike"],
+         "reviews": [
+            {
+               "reviewer": "Bill",
+               "rating": 3,
+               "feedback": "very nice"
+            }
+         ]
+      },
+      {
+         "id": "123dsa2asdcg",
+         "title": "Moskow",
+         "address": "Дыбенко, 24",
+         "price": {
+            "amount": 228,
+            "currency": "$",
+            "per": "day"
+         },
+         "images": {
+            "jpg": "../../assets/test2.jpg",
+            "png": "",
+            "webp": ""
+         },
+         "desc": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+         "conveniences": ["wifi","air conditioning","kitchen","heating","smokers","parking"],
+         "stats": {
+            "floor": 3,
+            "area": 50,
+            "Rooms": 4
+         },
+         "landlordName": "Lindman",
+         "landlordPhone": "+78005553535",
+         "roommates": ["Roni","Alex","Mike"],
+         "reviews": [
+            {
+               "reviewer": "Bill",
+               "rating": 3,
+               "feedback": "very nice"
+            }
+         ]
+      },
+      {
+         "id": "123dsa2asdco",
+         "title": "2ух комнатная квартира в центре культурной столицы",
+         "address": "Большевиков, 17",
+         "price": {
+            "amount": 69,
+            "currency": "₽",
+            "per": "hour"
+         },
+         "images": {
+            "jpg": "../../assets/test2.jpg",
+            "png": "",
+            "webp": ""
+         },
+         "desc": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+         "conveniences": ["wifi","air conditioning","kitchen","heating","smokers","parking"],
+         "stats": {
+            "floor": 3,
+            "area": 50,
+            "Rooms": 4
+         },
+         "landlordName": "John",
+         "landlordPhone": "+78005553535",
+         "roommates": ["Roni","Alex","Mike"],
+         "reviews": [
+            {
+               "reviewer": "Bill",
+               "rating": 3,
+               "feedback": "very nice"
+            }
+         ]
+      }
+   ]
+ }

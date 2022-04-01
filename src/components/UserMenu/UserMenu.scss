@@ -4,6 +4,7 @@
    padding-inline: 1.5rem;
    border-left: 1px solid getColor(text-grey);
    position: relative;
+   z-index: 100;
 
    .user-button {
       display: flex;

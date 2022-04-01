@@ -1,41 +1,36 @@
 @import '../../styles/variables'; 
 
-.post {
+.apartment-info {
    width: 100%;
    padding: 1.8rem 2rem;
    background-color: getColor(background-element);
-   margin-bottom: 1.75rem;
+   margin-block: 1.75rem;
    border-radius: 1.25rem;
    display: grid;
    gap: 1.5rem;
-   grid-template-columns: min-content auto repeat(2, min-content);
-   grid-template-rows: min-content 1fr min-content;
+   grid-template-columns:  repeat(3, 1fr);
+   grid-template-rows: repeat(5, 1fr);
    grid-template-areas: 
-      'image article article favButton'
-      'image conveniences conveniences conveniences'
-      'image rating price price';
+      'images article landlord'
+      'images roommates landlord '
+      'images price favButton '
+      'conveniences stats stats '
+      'desc desc desc ';
 
-   .image {
-      grid-area: image;
-      width: 12.5rem;
-      // aspect-ratio: 1;
-      height: 100%;
-      border-radius: .625rem;
-      position: relative;
-      overflow: hidden;
-
-      picture {
-         img {
-            height: 100%;
-         }
-         height: 100%;
-      }
+   &--images {
+      grid-area: images;
+      display: flex;
+      flex-wrap: wrap;
       
-      &::after {
-         content: "";
-         position: absolute;
-         inset: 0;
-         background: linear-gradient(180deg, rgba(51, 51, 51, 0) 0%, #333333 100%);
+      picture {
+         width: 12.5rem;
+         aspect-ratio: 1;
+         border-radius: .625rem;
+         position: relative;
+   
+         img {
+            border-radius: inherit;
+         }
       }
    }
    
@@ -61,7 +56,15 @@
       }
    }
 
-   .add-to-favourites {
+   &--landlord {
+      grid-area: landlord;
+   }
+
+   &--roommates {
+      grid-area: roommates;
+   }
+
+   &--add-to-favourites {
       grid-area: favButton;
       place-self: start end;
       width: 2.75rem;
@@ -79,7 +82,7 @@
       }
    }
 
-   .conveniences {
+   &--conveniences {
       grid-area: conveniences;
       display: flex;
       flex-wrap: wrap;
@@ -102,19 +105,7 @@
       }
    }
 
-   .rating {
-      grid-area: rating;
-      display: flex;
-      text-align: center;
-      gap: .5em;
-
-      &--num {
-         font-weight: 500;
-         font-size: 20px;
-      }
-   }
-
-   .price {
+   &--price {
       grid-area: price;
       place-self: end;
       font-weight: 400;
@@ -123,6 +114,14 @@
          font-weight: 700;
          font-size: 24px;
       }
+   }
+
+   &--stats {
+      grid-area: stats;
+   }
+
+   &--desc {
+      grid-area: desc;
    }
 
    &:last-child {

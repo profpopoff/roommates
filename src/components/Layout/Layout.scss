@@ -11,6 +11,23 @@
    overflow: hidden;
    display: grid;
    grid-template-rows: min-content 89vh;
+
+   &.apartment {
+      overflow-y: auto;
+      grid-template-rows: min-content 1fr;
+   }
+
+   &::-webkit-scrollbar {
+      width: .1rem;
+
+      &-track {
+         background: getColor(background-element); 
+      }
+
+       &-thumb {
+         background: getColor(text-grey); 
+      }
+   }
 }
 
 
@@ -19,7 +36,7 @@
    padding-top: clamp(1em, 3vw, 2.75em);
    display: grid;
    gap: clamp(1em, 3vw, 3.75em);
-   grid-template-columns: minmax(0, 1fr) minmax(0, 45rem) minmax(0, 65rem) minmax(0, 1fr);
+   grid-template-columns: minmax(0, 1fr) minmax(35rem, 45rem) minmax(20rem, 65rem) minmax(0, 1fr);
    grid-template-rows: min-content 1fr clamp(1em, 3vw, 2.75em);
    grid-template-areas: 
    '. filters map .'
@@ -32,11 +49,26 @@
 
    .posts {
       grid-area: posts;
-
    }
 
    .map {
       grid-area: map;
-      background-color: red;
+   }
+}
+
+// * apartment
+.container--apartment {
+   display: grid;
+   gap: clamp(1em, 3vw, 3.75em);
+   grid-template-columns: minmax(0, 1fr) minmax(0, 112.5rem) minmax(0, 1fr);
+   grid-template-areas: 
+   '. apartment .'
+   '. reviews .';
+
+   .apartment-info {
+      grid-area: apartment;
+   }
+   .reviews {
+      grid-area: reviews;
    }
 }

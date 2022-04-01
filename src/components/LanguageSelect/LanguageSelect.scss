@@ -3,7 +3,7 @@
 .language-select {
    text-transform: uppercase;
    position: relative;
-   
+   z-index: 100;
 
    &--name {
       min-width: 4em;
