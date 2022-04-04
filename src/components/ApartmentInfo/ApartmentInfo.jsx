@@ -27,22 +27,22 @@ export default function ApartmentInfo() {
       <div className="apartment-info">
          <div className="apartment-info--images">
             <picture className="image image-1 active">
-               <img src={image} alt="image" />
+               <img src={image} alt="appimage" />
             </picture>
             <picture className="image image-2">
-               <img src={image} alt="image" />
+               <img src={image} alt="appimage" />
             </picture>
             <picture className="image image-3">
-               <img src={image} alt="image" />
+               <img src={image} alt="appimage" />
             </picture>
             <picture className="image image-4">
-               <img src={image} alt="image" />
+               <img src={image} alt="appimage" />
             </picture>
             <picture className="image image-5">
                <img src={image} alt="image" />
             </picture>
             <picture className="image image-6">
-               <img src={image} alt="image" />
+               <img src={image} alt="appimage" />
             </picture>
          </div>
          <article className="apartment-info--article">

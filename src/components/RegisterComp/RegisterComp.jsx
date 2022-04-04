@@ -4,8 +4,31 @@ import './RegisterComp.scss'
 import logo from '../../assets/logo.svg'
 import CustomInput from "../CustomInput/CustomInput";
 import LanguageSelect from "../LanguageSelect/LanguageSelect";
+import { useHttp } from '../../hooks/http.hook'
 
 export default function RegisterComp() {
+
+   const {loading, request, error, cleareError} = useHttp()
+
+   const [form, setForm] = React.useState({
+      email: '', password: '', fullName: '', phoneNumber: ''
+   })
+
+   // React.useEffect(() => {
+   //    message(error)
+   //    cleareError()
+   // }, [error, message, cleareError])
+
+   const changeHandler = event => {
+      setForm({...form, [event.target.name]: event.target.value})
+   }
+
+   const registerHandler = async () => {
+      try {
+         const data = await request('/api/auth/register', 'POST', {...form})
+         console.log('data', data)
+      } catch (error) {}
+   }
 
    return (
       <div className="register-comp">
@@ -24,28 +47,35 @@ export default function RegisterComp() {
                   name='email'
                   label='Email'
                   type='email'
+                  handleChange={changeHandler}
                />
                <CustomInput 
                   name='password'
                   label='Password'
                   type='password'
+                  handleChange={changeHandler}
                />
                <CustomInput 
-                  name='-repeat-password'
+                  name='repeat-password'
                   label='Repeat password'
                   type='password'
+                  // handleChange={changeHandler}
                />
                <CustomInput 
-                  name='name'
+                  name='fullName'
                   label='Name'
                   type='text'
+                  handleChange={changeHandler}
                />
                <CustomInput 
-                  name='phone'
+                  name='phoneNumber'
                   label='Phone'
                   type='phone'
+                  handleChange={changeHandler}
                />
-               <input className='submit-btn' type="submit" value='Submit'/>
+               {/* <input className='submit-btn' type="submit" value='Submit'/> */}
+               <button className="submit-btn" onClick={registerHandler} disabled={loading}>Submit</button>
+               {error && <h4>{error}</h4>}
             </form>
       </div>
    )

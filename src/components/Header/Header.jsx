@@ -9,10 +9,16 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
 import { faComments, faHeart } from '@fortawesome/free-regular-svg-icons'
 import CustomInput from '../CustomInput/CustomInput'
+import { useHttp } from '../../hooks/http.hook'
+import { AuthContex } from '../../context/AuthContext'
 
 export default function Header() {
 
+   const auth = React.useContext(AuthContex)
+
    const [loginActive, setLoginActive] = React.useState(false)
+
+   const {loading, request, error} = useHttp()
 
    const [form, setForm] = React.useState({
       email: '', password: ''
@@ -22,7 +28,13 @@ export default function Header() {
       setForm({...form, [event.target.name]: event.target.value})
    }
 
-   console.log(form)
+   const loginHandler = async () => {
+      try {
+         const data = await request('/api/auth/login', 'POST', {...form})
+         auth.login(data.token, data.userId)
+         setLoginActive(false)
+      } catch (error) {}
+   }
 
    // * Header rendering
    return (
@@ -38,7 +50,66 @@ export default function Header() {
                <input type="text" placeholder="Search" className="search-input" />
                <button className="search-button"><FontAwesomeIcon icon={faMagnifyingGlass} className="search-icon" /><span className="sr-only">Search</span></button>
             </form>
-            <nav className="primary-navigation">
+            {
+               auth.isAuthenticated ? 
+               <nav className="primary-navigation">
+                  <li>
+                     <NavLink to={process.env.PUBLIC_URL + '/chats'} className="primary-navigation--link chats-link">
+                        <FontAwesomeIcon icon={faComments} className="icon" />
+                        <span className="sr-only">Chats</span>
+                     </NavLink>
+                  </li>
+                  <li>
+                     <NavLink to={process.env.PUBLIC_URL + '/favourites'} className="primary-navigation--link favourites-link">
+                     <FontAwesomeIcon icon={faHeart} />
+                        <span className="sr-only">Favourites</span>
+                     </NavLink>
+                  </li>
+                  <li>
+                     <UserMenu />
+                  </li>
+                  
+                  <li className="header__item--language">
+                     <LanguageSelect />
+                  </li>
+               </nav>
+               :
+               <nav className="primary-navigation">
+                  <li className="header__item--log-in">
+                     <button className='log-in-btn' onClick={() => {setLoginActive(true)}}>Log In</button>
+                     <Modal active = {loginActive} setActive={setLoginActive}>
+                        <h2 className="title">Log In</h2>
+                        <form action="/">
+                           <CustomInput 
+                              name='email'
+                              label='Email'
+                              type='email'
+                              handleChange={changeHandler}
+                           />
+                           <CustomInput 
+                              name='password'
+                              label='Password'
+                              type='password'
+                              handleChange={changeHandler}
+                           />
+                           <button className="submit-btn" onClick={loginHandler} disabled={loading}>Submit</button>
+                           {error && <h4 className='error'>{error}</h4>}
+                        </form>
+                     </Modal>
+                  </li>
+                  <li className="header__item--sign-up">
+                     <NavLink to={process.env.PUBLIC_URL + '/register'} className="primary-navigation--link sign-up-btn">
+                        Sign Up
+                     </NavLink>
+                  </li>
+                  <li className="header__item--language">
+                     <LanguageSelect />
+                  </li>
+               </nav> 
+               
+            }
+
+            {/* <nav className="primary-navigation">
                   <li>
                      <NavLink to={process.env.PUBLIC_URL + '/chats'} className="primary-navigation--link chats-link">
                         <FontAwesomeIcon icon={faComments} className="icon" />
@@ -71,7 +142,8 @@ export default function Header() {
                               type='password'
                               handleChange={changeHandler}
                            />
-                           <input className='submit-btn' type="submit" value='Submit'/>
+                           <button className="submit-btn" onClick={loginHandler} disabled={loading}>Submit</button>
+                           {error && <h4 className='error'>{error}</h4>}
                         </form>
                      </Modal>
                   </li>
@@ -80,11 +152,10 @@ export default function Header() {
                         Sign Up
                      </NavLink>
                   </li>
-
                <li className="header__item--language">
                   <LanguageSelect />
                </li>
-            </nav>
+            </nav> */}
          </div>
       </header>
    )

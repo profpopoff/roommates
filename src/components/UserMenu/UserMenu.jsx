@@ -4,8 +4,11 @@ import userImg from '../../assets/user.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUser, faPenToSquare, faGear, faCircleInfo, faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons'
 import './UserMenu.scss'
+import { AuthContex } from '../../context/AuthContext'
 
 export default function UserMenu() {
+
+   const auth = React.useContext(AuthContex)
 
    // * State that shows or hides user menu
    const [showMenu, setShowMenu] = React.useState(false)
@@ -29,6 +32,11 @@ export default function UserMenu() {
       }
    }, [showMenu])
 
+   const logoutHandler = event  => {
+      event.preventDefault()
+      auth.logout()
+   }
+
    // * User menu rendering
    return (
       <div ref={ref} className="user-menu">
@@ -51,7 +59,8 @@ export default function UserMenu() {
             <li><NavLink to={process.env.PUBLIC_URL + '/help'} className="user-menu--link" onClick={toggleMenu}>
                <FontAwesomeIcon icon={faCircleInfo} className="menu-icon" />Help</NavLink>
             </li>
-            <li><Link to={process.env.PUBLIC_URL + '/'} className="user-menu--link" onClick={toggleMenu}>
+            <li>
+               <Link to={process.env.PUBLIC_URL + '/'} className="user-menu--link" onClick={logoutHandler}>
                <FontAwesomeIcon icon={faArrowRightFromBracket} className="menu-icon" />Logout</Link>
             </li>
          </ul>
