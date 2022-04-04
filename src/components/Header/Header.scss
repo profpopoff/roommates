@@ -94,6 +94,30 @@
             color: getColor(accent-color);
          }
       }
+
+
+      .log-in-btn {
+         cursor: pointer;
+         background-color: getColor(accent-color);
+         color: getColor(background-main);
+         padding: .6rem;
+         border: 1px solid getColor(accent-color);
+         border-radius: .5rem;
+         font-size: 1.5rem;
+         font-weight: 600;
+      }
+
+      .sign-up-btn {
+         cursor: pointer;
+         background-color: transparent;
+         color: getColor(accent-color);
+         padding: .6rem;
+         border: 1px solid getColor(accent-color);
+         border-radius: .5rem;
+         text-decoration: none;
+         font-size: 1.5rem;
+         font-weight: 300;
+      }
    }
 }
 

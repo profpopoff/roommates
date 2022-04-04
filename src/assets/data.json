@@ -3,7 +3,10 @@
       {
          "id": "123dsa2asdcx",
          "title": "The People's Brownstone",
-         "address": "Кронверский пр., 4",
+         "position": {
+            "address": "Санкт-Петербург, Песочная набережная, 14",
+            "coordinates": [30.295833, 59.972948]
+         },
          "price": {
             "amount": 3000,
             "currency": "$",
@@ -35,7 +38,10 @@
       {
          "id": "123dsa2asdcz",
          "title": "Lovely room in Manhattan",
-         "address": "Pospect Prosvesheniya, 16",
+         "position": {
+            "address": "Санкт-Петербург,Адмиралтейский проспект, 8",
+            "coordinates": [30.309247, 59.935942]
+         },
          "price": {
             "amount": 2440,
             "currency": "$",
@@ -72,7 +78,10 @@
       {
          "id": "123dsa2asdcc",
          "title": "Dibenko ept",
-         "address": "Ладожская, 7",
+         "position": {
+            "address": "Санкт-Петербург, Байконурская улица, 7 к1В",
+            "coordinates": [30.276407, 60.00123]
+         },
          "price": {
             "amount": 1337,
             "currency": "$",
@@ -104,7 +113,10 @@
       {
          "id": "123dsa2asdcg",
          "title": "Moskow",
-         "address": "Дыбенко, 24",
+         "position": {
+            "address": "Санкт-Петербург, Дыбенко, 24",
+            "coordinates": [30.481099, 59.906688]
+         },
          "price": {
             "amount": 228,
             "currency": "$",
@@ -136,7 +148,10 @@
       {
          "id": "123dsa2asdco",
          "title": "2ух комнатная квартира в центре культурной столицы",
-         "address": "Большевиков, 17",
+         "position": {
+            "address": "Санкт-Петербург, Большевиков, 17",
+            "coordinates": [30.099409, 59.8271]
+         },
          "price": {
             "amount": 69,
             "currency": "₽",

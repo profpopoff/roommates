@@ -1,0 +1,25 @@
+@import '../../styles/variables';
+
+.map {
+   border-radius: 1.25rem;
+   overflow: hidden;
+
+   .mapbox {
+
+      .marker {
+
+         .pin {
+            font-size: 2rem;
+            color: getColor(accent-color);
+            cursor: pointer;
+         }
+
+      }
+      .mapboxgl-popup-content {
+         color: getColor(text-main);
+         background-color: getColor(accent-color);
+         border-radius: .7rem;
+      }
+     .mapboxgl-popup-tip { border-top-color: getColor(accent-color) }
+   }
+}

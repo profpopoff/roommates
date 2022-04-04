@@ -7,29 +7,43 @@
    margin-block: 1.75rem;
    border-radius: 1.25rem;
    display: grid;
-   gap: 1.5rem;
-   grid-template-columns:  repeat(3, 1fr);
-   grid-template-rows: repeat(5, 1fr);
+   gap: 3rem;
+   grid-template-columns: 1.5fr auto 1fr min-content;
+   // grid-template-rows: repeat(5, min-content);
    grid-template-areas: 
-      'images article landlord'
-      'images roommates landlord '
-      'images price favButton '
-      'conveniences stats stats '
-      'desc desc desc ';
+      'images article article favButton'
+      'images roommates landlord landlord'
+      'conveniences stats stats stats'
+      'desc desc desc desc';
 
    &--images {
       grid-area: images;
-      display: flex;
-      flex-wrap: wrap;
-      
-      picture {
-         width: 12.5rem;
-         aspect-ratio: 1;
-         border-radius: .625rem;
-         position: relative;
-   
+      place-self: end;
+      display: grid;
+      grid-template-columns: minmax(0, 46rem) 5.5rem;
+      gap: 1rem;
+      height: 32rem;
+
+      .image {
+         border-radius: .5rem;
+         overflow: hidden;
+         grid-column: 2;
+
          img {
-            border-radius: inherit;
+            aspect-ratio: 1;
+            object-fit: cover;
+         }
+      }
+
+      .active {
+         grid-column: 1;
+         grid-row: 1/6;
+         
+         img {
+            width:100%;
+            height:100%;
+            object-position: center;
+            object-fit: cover;
          }
       }
    }
@@ -37,37 +51,133 @@
    &--article {
       grid-area: article;
 
-      a {
-         text-decoration: none;
-         color: getColor(text-main);
-      }
-
       .title {
+         margin-bottom: .5rem;
+         font-size: 2.5rem;
          font-weight: 500;
-
       }
 
       .address {
-         font-weight: 400;
-         font-size: 16px;
-         .icon {
-            margin-right: .5rem;
+         margin-bottom: .5rem;
+
+         a{
+            text-decoration: none;
+            color: getColor(text-main);
+            font-weight: 300;
+            font-size: 1.7rem;
          }
       }
    }
 
    &--landlord {
       grid-area: landlord;
+      place-self: end;
+      display: flex;
+
+      .who {
+         display: flex;
+         flex-direction: column;
+         justify-content: space-between;
+         align-items: end;
+         margin-right: 1rem;
+
+         .role {
+            font-weight: 400;
+            font-size: 24px;
+            color: getColor(accent-color);
+            text-transform: capitalize;
+            margin-right: -15px;
+         }
+
+         .name {
+            font-weight: 500;
+            font-size: 40px;
+         }
+
+         .phone-number {
+            font-weight: 300;
+            font-size: 1.5rem;
+            text-decoration: none;
+            color: getColor(text-main);
+            margin-right: -15px;
+
+            .icon {
+               font-size: 1.5rem;
+            }
+         }
+      }
+
+      .img-block {
+         position: relative;
+
+         .landlord-photo {
+            
+            width: 8.75rem;
+            aspect-ratio: 1;
+            border-radius: 50%;
+            overflow: hidden;
+   
+            img {
+               width: 100%;
+               height: 100%;
+               object-position: center;
+               object-fit: cover;
+            }
+
+         }
+         .chat-link {
+            position: absolute;
+            bottom: -.8rem;
+            right: -.8rem;
+            width: 3.5rem;
+            border-radius: 1rem;
+            aspect-ratio: 1;
+            background-color: getColor(accent-color);
+            font-size: 1.7rem;
+            color: getColor(text-main);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+         }
+      }
    }
 
    &--roommates {
       grid-area: roommates;
+      place-self: end start;
+
+      .photos {
+         display: flex;
+
+         .roommate-photo {
+
+            img {
+               width: 4rem;
+               aspect-ratio: 1;
+            }
+         }
+
+         .roommate-photo:not(:first-child) {
+            margin-left: -20px;
+         }
+      }
+      .roommates-number {
+         font-weight: 400;
+         font-size: 1.7rem;
+      }
+
+      .roommates-names {
+         font-weight: 300;
+         font-size: 1.5rem;
+      }
+      
    }
 
    &--add-to-favourites {
       grid-area: favButton;
       place-self: start end;
-      width: 2.75rem;
+      width: 3rem;
       aspect-ratio: 1;
       border: none;
       border-radius: 30rem;
@@ -89,42 +199,83 @@
       list-style: none;
       padding: 0;
       color: getColor(text-grey);
+      font-size: 1.2rem;
       font-weight: 400;
-      max-height: 4.5rem;
       overflow: hidden;
+      position: relative;
 
-      li:not(:first-child) {
-         margin-left: 1em;
+      &::after {
+         content: "";
+         position: absolute;
+         top: 0;
+         bottom: 0;
+         left: 0;
+         border: 5px solid getColor(background-element);
+      }
+
+      li {
+         padding-inline: 1em;
          position: relative;
+         text-transform: capitalize;
 
          &:after {
             content: "•";
+            font-size: 1.7rem;
+            color: getColor(accent-color);
             position: absolute;
-            left: -.65em;
+            left: -4px;
          }
       }
    }
 
    &--price {
       grid-area: price;
-      place-self: end;
-      font-weight: 400;
+      place-self: end start;
+      h2{
+         font-weight: 400;
 
-      span {
-         font-weight: 700;
-         font-size: 24px;
+         span {
+            font-weight: 700;
+            font-size: 2rem;
+         }
       }
+     
+      
    }
 
    &--stats {
       grid-area: stats;
+      display: flex;
+      justify-content: space-around;
+      text-align: center;
+      
+
+      .info {
+         display: flex;
+         flex-direction: column;
+         justify-content: center;
+         width: 100%;
+      }
+      .info:not(:last-child) {
+         border-right: 1px solid getColor(text-grey);
+      }
+
+      .stat {
+         font-weight: 400;
+         font-size: 30px;
+         text-transform: capitalize;
+      }
+
+      .value {
+         font-size: 2rem;
+         font-weight: 700;
+         color: getColor(accent-color);
+      }
    }
 
    &--desc {
       grid-area: desc;
-   }
-
-   &:last-child {
-      margin-bottom: 4rem;
+      font-weight: 400;
+      font-size: 1.7rem;
    }
 }

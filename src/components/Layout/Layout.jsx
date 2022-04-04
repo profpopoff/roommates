@@ -11,7 +11,7 @@ export default function Layout() {
    // * Redndering Layout
    return (
       <div className={`wrapper ${location}`}>
-         <Header />
+         {location !== 'register' && <Header />}
          <Outlet />
       </div>
    )

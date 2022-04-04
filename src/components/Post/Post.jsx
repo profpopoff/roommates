@@ -33,7 +33,7 @@ export default function Post(props) {
          </Link>
          <article className="post--article">
             <h2 className="title"><Link to={process.env.PUBLIC_URL + '/apartment'}>{props.title}</Link></h2>
-            <h3 className="address"><a href="#"><FontAwesomeIcon icon={faLocationDot} className="icon" />{props.address}</a></h3>
+            <h3 className="address"><a href="#"><FontAwesomeIcon icon={faLocationDot} className="icon" />{props.position.address}</a></h3>
          </article>
          <button className="add-to-favourites" onClick={toggleIsFavourite}>
             {isFavourite ? <FontAwesomeIcon icon={faHeartSolid} /> : <FontAwesomeIcon icon={faHeartRegular} />}

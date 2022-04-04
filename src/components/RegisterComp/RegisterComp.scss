@@ -1,0 +1,48 @@
+@import '../../styles/variables';
+
+.register-comp {
+   display: flex;
+   flex-direction: column;
+   background-color: getColor(background-element);
+   padding: 2rem;
+   border-radius: 1.5rem;
+   text-align: center;
+   width: 700px;
+
+   .logo {
+      position: absolute;
+      top: 0;
+      left: 0;
+      padding: 2.6em clamp(1em, 3vw, 3.75em);
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      gap: .75rem;
+
+      &-image {
+         width: 2.5rem;
+      }
+
+      &-title {
+         font-size: 1.875em;
+         color: getColor(text-main);
+         -webkit-touch-callout: none;
+         -webkit-user-select: none;
+         -khtml-user-select: none;
+         -moz-user-select: none;
+         -ms-user-select: none;
+         user-select: none;
+
+         span {
+            font-weight: 300;
+         }
+      }
+   }
+
+   .language-selector {
+      position: absolute;
+      top: 0;
+      right: 0;
+      margin: 2.35em clamp(1em, 3vw, 3.75em);
+   }
+}

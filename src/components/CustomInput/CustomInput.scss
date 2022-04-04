@@ -1,0 +1,72 @@
+@import '../../styles/variables';
+
+.form__group {
+   position: relative;
+   padding: 15px 0 0;
+   margin-top: 10px;
+   margin-inline: auto;
+   width: 70%;
+}
+
+.form__field {
+   font-family: inherit;
+   width: 100%;
+   border: 0;
+   border-bottom: 2px solid getColor(text-main);
+   outline: 0;
+   font-size: 1.3rem;
+   color: getColor(text-main);
+   padding: 7px 0;
+   background: transparent;
+   transition: border-color 0.2s;
+
+   &::placeholder {
+      color: transparent;
+   }
+
+   &:placeholder-shown ~ .form__label {
+      font-size: 1.3rem;
+      cursor: text;
+      top: 20px;
+   }
+}
+
+.form__label {
+   position: absolute;
+   top: 0;
+   display: block;
+   transition: 0.2s;
+   font-size: 1rem;
+   color: getColor(text-main);
+}
+
+.form__field:focus {
+   ~ .form__label {
+      position: absolute;
+      top: 0;
+      display: block;
+      transition: 0.2s;
+      font-size: 1rem;
+      color: getColor(accent-color);
+      font-weight:700;    
+   }
+
+   padding-bottom: 6px;  
+   font-weight: 700;
+   border-width: 3px;
+   border-color: getColor(accent-color);
+}
+
+.form__field{
+   &:required,&:invalid { box-shadow:none; }
+}
+
+.submit-btn {
+   margin-top: 2rem;
+   cursor: pointer;
+   background-color: getColor(accent-color);
+   color: getColor(background-main);
+   padding: .5rem .75rem;
+   border: 1px solid getColor(accent-color);
+   border-radius: .5rem;
+}
