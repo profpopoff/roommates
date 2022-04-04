@@ -14,6 +14,16 @@ export default function Header() {
 
    const [loginActive, setLoginActive] = React.useState(false)
 
+   const [form, setForm] = React.useState({
+      email: '', password: ''
+   })
+
+   const changeHandler = event => {
+      setForm({...form, [event.target.name]: event.target.value})
+   }
+
+   console.log(form)
+
    // * Header rendering
    return (
       <header className="primary-header"> 
@@ -53,11 +63,13 @@ export default function Header() {
                               name='email'
                               label='Email'
                               type='email'
+                              handleChange={changeHandler}
                            />
                            <CustomInput 
                               name='password'
                               label='Password'
                               type='password'
+                              handleChange={changeHandler}
                            />
                            <input className='submit-btn' type="submit" value='Submit'/>
                         </form>

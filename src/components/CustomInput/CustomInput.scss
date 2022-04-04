@@ -61,12 +61,4 @@
    &:required,&:invalid { box-shadow:none; }
 }
 
-.submit-btn {
-   margin-top: 2rem;
-   cursor: pointer;
-   background-color: getColor(accent-color);
-   color: getColor(background-main);
-   padding: .5rem .75rem;
-   border: 1px solid getColor(accent-color);
-   border-radius: .5rem;
-}
+
