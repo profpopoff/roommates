@@ -8,6 +8,8 @@ const favouritesRouter = require('./routes/favourites')
 
 const app = express()
 
+app.use(express.json({ extended: true }))
+
 dotenv.config()
 
 mongoose
@@ -22,5 +24,5 @@ app.use('/api/apartments', apartmentRouter)
 app.use('/api/favourites', favouritesRouter)
 
 app.listen(process.env.PORT || 5000, () => {
-   console.log('Server has been started...')
+   console.log('Server is running...')
 })

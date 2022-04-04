@@ -29,7 +29,7 @@ router.post('/login', async (req, res) => {
       const decryptedPassword = CryptoJS.AES.decrypt(user.password, process.env.SECRET_PASS).toString(CryptoJS.enc.Utf8)
       if (decryptedPassword !== req.body.password) return res.status(401).json('Wrong password')
 
-      const accessToken = jwt.sign(
+      const token = jwt.sign(
          {
             id: user._id,
             isAdmin: user.isAdmin
@@ -38,9 +38,9 @@ router.post('/login', async (req, res) => {
          { expiresIn: '3d' }
       )
 
-      const { password, ...otherInfo } = user._doc
+      // const { password, ...otherInfo } = user._doc
 
-      res.status(200).json({...otherInfo, accessToken})
+      res.status(200).json({token, userId: user._id})
    } catch (error) {
       res.status(500).json(error)
    }
