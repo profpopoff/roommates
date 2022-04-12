@@ -30,7 +30,44 @@
    }
 }
 
+.property-btn {
+   background-color: transparent;
+   border: 1px solid getColor(text-main);
+   color: getColor(text-main);
+   padding: .3rem .5rem;
+   border-radius: .5rem;
+   transition: .15s;
+   font-weight: 400;
+   cursor: pointer;
+   text-transform: uppercase;
+   text-decoration: none;
+   text-align: center;
+
+   &:hover {
+      color: getColor(accent-color);
+      border-color: getColor(accent-color);
+   }
+}
+
 .error {
    color: red;
    margin-top: 20px;
+}
+
+.success{
+   color: green;
+   margin-top: 20px;
+}
+
+.creat-profile {
+   margin-top: 20px;
+
+   * {
+      color: getColor(text-main);
+      transition: .15s;
+
+      &:hover {
+         color: getColor(accent-color);
+      }
+   }
 }

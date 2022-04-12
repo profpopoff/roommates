@@ -10,6 +10,8 @@ export default function RegisterComp() {
 
    const {loading, request, error, cleareError} = useHttp()
 
+   const [success, setSuccess] = React.useState(false)
+
    const [form, setForm] = React.useState({
       email: '', password: '', fullName: '', phoneNumber: ''
    })
@@ -26,7 +28,7 @@ export default function RegisterComp() {
    const registerHandler = async () => {
       try {
          const data = await request('/api/auth/register', 'POST', {...form})
-         console.log('data', data)
+         setSuccess(true)
       } catch (error) {}
    }
 
@@ -41,7 +43,7 @@ export default function RegisterComp() {
          <div className="language-selector">
             <LanguageSelect />
          </div>
-         <h2 className="title">Sign Up</h2>
+         <h2 className="title">Регистрация</h2>
             <form action="/">
                <CustomInput 
                   name='email'
@@ -74,8 +76,9 @@ export default function RegisterComp() {
                   handleChange={changeHandler}
                />
                {/* <input className='submit-btn' type="submit" value='Submit'/> */}
-               <button className="submit-btn" onClick={registerHandler} disabled={loading}>Submit</button>
-               {error && <h4>{error}</h4>}
+               <button className="submit-btn" onClick={registerHandler} disabled={loading}>Выполнить</button>
+               {success && <h4 className="success">Пользователь успешно создан.</h4>}
+               {error && <h4 className="error">{error}</h4>}
             </form>
       </div>
    )

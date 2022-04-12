@@ -1,14 +1,18 @@
 import React from "react"
 import { Link, NavLink } from 'react-router-dom'
-import userImg from '../../assets/user.png'
+import userImg from '../../assets/cover.jpeg'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faUser, faPenToSquare, faGear, faCircleInfo, faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons'
+import { faUser, faGear, faCircleInfo, faArrowRightFromBracket} from '@fortawesome/free-solid-svg-icons'
 import './UserMenu.scss'
 import { AuthContex } from '../../context/AuthContext'
+import Modal from "../Modal/Modal"
+import CustomToggle from "../CustomToggle/CustomToggle"
 
 export default function UserMenu() {
 
    const auth = React.useContext(AuthContex)
+
+   const [settingsActive, setSettingsActive] = React.useState(false)
 
    // * State that shows or hides user menu
    const [showMenu, setShowMenu] = React.useState(false)
@@ -41,29 +45,34 @@ export default function UserMenu() {
    return (
       <div ref={ref} className="user-menu">
          <div className="user-button" onClick={toggleMenu}>
-            <h3 className="user-button--name">Richard Lucas</h3>
+            <h3 className="user-button--name">{auth.userName}</h3>
             <div className="user-button--image">
                <img src={userImg} alt="User image" />
             </div>
          </div>
          <ul className="user-menu--list" data-visible={showMenu}>
-            <li><NavLink to={process.env.PUBLIC_URL + '/profile'} className="user-menu--link" onClick={toggleMenu}>
-               <FontAwesomeIcon icon={faUser} className="menu-icon" />My profile</NavLink>
-            </li>
-            <li><NavLink to={process.env.PUBLIC_URL + '/profile/edit'} className="user-menu--link" onClick={toggleMenu}>
-               <FontAwesomeIcon icon={faPenToSquare} className="menu-icon" />Edit profile</NavLink>
-            </li>
-            <li><NavLink to={process.env.PUBLIC_URL + '/settings'} className="user-menu--link" onClick={toggleMenu}>
-               <FontAwesomeIcon icon={faGear} className="menu-icon" />Settings</NavLink>
-            </li>
-            <li><NavLink to={process.env.PUBLIC_URL + '/help'} className="user-menu--link" onClick={toggleMenu}>
-               <FontAwesomeIcon icon={faCircleInfo} className="menu-icon" />Help</NavLink>
+            <li>
+               <NavLink to={process.env.PUBLIC_URL + '/profile'} className="user-menu--link" onClick={toggleMenu}>
+                  <FontAwesomeIcon icon={faUser} className="menu-icon" />Профиль
+               </NavLink>
             </li>
             <li>
-               <Link to={process.env.PUBLIC_URL + '/'} className="user-menu--link" onClick={logoutHandler}>
-               <FontAwesomeIcon icon={faArrowRightFromBracket} className="menu-icon" />Logout</Link>
+               <button className='user-menu--link' onClick={() => {setSettingsActive(true)}}><FontAwesomeIcon icon={faGear} className="menu-icon" />Настройки</button>
+            </li>
+            <li><NavLink to={process.env.PUBLIC_URL + '/help'} className="user-menu--link" onClick={toggleMenu}>
+               <FontAwesomeIcon icon={faCircleInfo} className="menu-icon" />Помошь</NavLink>
+            </li>
+            <li onClick={logoutHandler}>
+               <Link to={process.env.PUBLIC_URL + '/'} className="user-menu--link" >
+               <FontAwesomeIcon icon={faArrowRightFromBracket} className="menu-icon" />Выйти</Link>
             </li>
          </ul>
+         <Modal active = {settingsActive} setActive={setSettingsActive}>
+            <h2 className="title"><FontAwesomeIcon icon={faGear} className="menu-icon" /> Настройки</h2>
+            <div className="theme">
+               <CustomToggle label="Темная тема" name="theme"/>
+            </div>
+         </Modal>
       </div>
    )
 }

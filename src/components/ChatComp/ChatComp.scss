@@ -1,0 +1,97 @@
+@import '../../styles/variables';
+
+.chat-menu {
+   margin-right: 1rem;
+   height: min-content;
+   width: 30%;
+   display: flex;
+   flex-direction: column;
+   gap: 1rem;
+   text-align: center;
+   background-color: getColor(background-element);
+   padding: 2rem;
+   border-radius: 1.5rem;
+}
+
+.chat-box {
+   height: 97%;
+   width: 70%;
+   display: flex;
+   flex-direction: column;
+   background-color: getColor(background-element);
+   padding: 2rem;
+   border-radius: 1.5rem;
+
+   &-top {
+      height: 88%;
+      overflow-y: auto;
+      margin-bottom: 1rem;
+      padding-right: 1rem;
+      &::-webkit-scrollbar {
+         width: .1rem;
+   
+         &-track {
+            background: getColor(background-element); 
+         }
+   
+          &-thumb {
+            background: getColor(text-grey); 
+         }
+      }
+   }
+   &-bottom {
+      height: 12%;
+      display: flex;
+
+      .textarea {
+         background-color: getColor(background-main);
+         color: getColor(text-main);
+         width: 100%;
+         height: 100%;
+         padding: 15px;
+         border-radius: 1rem 0 0 1rem;
+         border: 2px solid getColor(text-main);
+         border-right: none;
+         outline: none;
+         box-shadow: none;
+         resize: none;
+         transition: 0.2s;
+   
+         &::-webkit-scrollbar {
+            width: .3rem;
+            height: .5rem;
+         }
+         &::-webkit-scrollbar-thumb:vertical {
+            height: 10px;
+            background-color: #666;
+            border: none;
+            -webkit-border-radius: 1rem;
+         }
+      
+         &:focus {
+            border-color: getColor(accent-color);
+            ~ .chat-box-btn {
+               border-color: getColor(accent-color);
+            }
+         }
+      }
+
+      .chat-box-btn {
+         height: 100%;
+         border-radius: 0 1rem 1rem 0;
+         background-color: getColor(background-main);
+         border: 2px solid getColor(text-main);
+         color: getColor(text-main);
+         border-left: none;
+         outline: none;
+         padding-inline: 1rem;
+         font-size: 1.5rem;
+         cursor: pointer;
+         transition: 0.2s;
+
+         &:hover {
+            color: getColor(accent-color);
+         }
+      }
+   }
+}

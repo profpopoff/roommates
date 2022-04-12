@@ -7,7 +7,7 @@ export default function Posts(props) {
 
    const postElements = props.data.map(apartment => (
       <Post 
-         key={apartment.id}
+         key={apartment._id}
          {...apartment}
       />
    ))

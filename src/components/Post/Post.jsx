@@ -1,4 +1,4 @@
-import React from "react";
+import React from "react"
 import { Link } from 'react-router-dom'
 import './Post.scss'
 import StarRatings from 'react-star-ratings';
@@ -13,16 +13,18 @@ export default function Post(props) {
 
    const toggleIsFavourite = () => setIsFavourite(!isFavourite)
 
-
-   const conveniencesElement = props.conveniences.map((convenience, index) => (
+   const conveniencesElement = props.conveniences.slice(0, 6).map((convenience, index) => (
       <li key={index}>{convenience}</li>
    ))
 
    const ratings = [] 
-   props.reviews.map(review => ratings.push(review.rating))
-   function average(nums) {
-      return nums.reduce((a, b) => (a + b)) / nums.length;
-  }
+   props.reviews && props.reviews.map(review => ratings.push(review.rating))
+   const average = (nums) =>{
+      if (nums[0]) {
+         return nums.reduce((a, b) => (a + b)) / nums.length
+      } 
+      return 0
+   }
 
    return (
       <div className="post">
@@ -32,8 +34,8 @@ export default function Post(props) {
             </picture>
          </Link>
          <article className="post--article">
-            <h2 className="title"><Link to={process.env.PUBLIC_URL + '/apartment'}>{props.title}</Link></h2>
-            <h3 className="address"><a href="#"><FontAwesomeIcon icon={faLocationDot} className="icon" />{props.position.address}</a></h3>
+            <h2 className="title"><Link to={process.env.PUBLIC_URL + `/apartment/${props._id}`}>{props.title}</Link></h2>
+            <h3 className="address"><a href="#"><FontAwesomeIcon icon={faLocationDot} className="icon" />{props.address}</a></h3>
          </article>
          <button className="add-to-favourites" onClick={toggleIsFavourite}>
             {isFavourite ? <FontAwesomeIcon icon={faHeartSolid} /> : <FontAwesomeIcon icon={faHeartRegular} />}
@@ -41,17 +43,22 @@ export default function Post(props) {
          <ul className="conveniences">
             {conveniencesElement}
          </ul>
-         <div className="rating">
-            <span className="rating--num">{average(ratings)}</span>
-            <StarRatings
-               rating={average(ratings)}
-               starRatedColor="blue"
-               starDimension="20"
-               starSpacing="2"
-               starHoverColor="blue"
-               name='rating'/>
-         </div>
-         <div className="price"><span>{props.price.currency}{props.price.amount}</span>/{props.price.per}</div>
+         {
+            ratings[0] ? 
+            <div className="rating">
+               <span className="rating--num">{average(ratings).toString().substring(0,3)}</span>
+               <StarRatings
+                  rating={average(ratings)}
+                  starRatedColor="blue"
+                  starDimension="20"
+                  starSpacing="2"
+                  starHoverColor="blue"
+                  name='rating'/>
+            </div> 
+            :
+            <div className="rating">Оценок пока нет</div>
+         }
+         <div className="price"><span>{props.currency}{props.amount}</span>/{props.per}</div>
       </div>
             
    )

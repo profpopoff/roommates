@@ -1,0 +1,61 @@
+@import '../../styles/variables';
+
+.property-comp {
+   width: 100vw;
+   display: flex;
+   flex-direction: column;
+   gap: 1rem;
+   padding: 1rem;
+   border-radius: 1.5rem;
+   margin-bottom: 1rem;
+
+   .property {
+      width: 50rem;
+      margin-inline: auto;
+      background-color: getColor(background-element);
+      padding: 1.5rem;
+      border-radius: 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .left {
+         margin-right: 2rem;
+         max-width: 30rem;
+         display: flex;
+         flex-direction: column;
+         gap: .5rem;
+
+         .property--title {
+            font-size: 1.2rem;
+         }
+         .property--address {
+            font-size: 1rem;
+            font-weight: 400;
+         }
+
+         .property--price {
+            font-weight: 400;
+      
+            span {
+               font-weight: 700;
+               font-size: 1.2rem;
+            }
+         }
+      }
+
+      .right {
+         display: flex;
+         flex-direction: column;
+         align-items: flex-end;
+         gap: 1rem;
+      }
+   }
+
+   .add-btn {
+      font-weight: 600;
+      margin-inline: auto;
+      width: 15rem;
+      border: 2px solid;
+   }
+}

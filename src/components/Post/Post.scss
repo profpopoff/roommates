@@ -8,11 +8,12 @@
    border-radius: 1.25rem;
    display: grid;
    gap: 1.5rem;
-   grid-template-columns: min-content auto repeat(2, min-content);
+   // grid-template-columns: min-content auto repeat(2, min-content);
+   grid-template-columns: min-content auto auto min-content;
    grid-template-rows: min-content 1fr min-content;
    grid-template-areas: 
       'image article article favButton'
-      'image conveniences conveniences conveniences'
+      'image conveniences conveniences .'
       'image rating price price';
 
    .image {
@@ -26,6 +27,7 @@
       picture {
          img {
             height: 100%;
+            object-fit: cover;
          }
          height: 100%;
       }
@@ -86,7 +88,7 @@
       padding: 0;
       color: getColor(text-grey);
       font-weight: 400;
-      max-height: 4.5rem;
+      // max-height: 4.5rem;
       overflow: hidden;
 
       li:not(:first-child) {

@@ -16,10 +16,28 @@
 
       }
       .mapboxgl-popup-content {
-         color: getColor(text-main);
+         color: white;
          background-color: getColor(accent-color);
          border-radius: .7rem;
       }
      .mapboxgl-popup-tip { border-top-color: getColor(accent-color) }
+
+     .popup {
+        width: 17rem;
+
+        .bottom {
+         display: flex;
+         justify-content: space-between;
+
+            &--price {
+            }
+   
+            .popup--details {
+               color: white;
+            }
+         }
+
+        
+     }
    }
 }

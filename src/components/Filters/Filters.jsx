@@ -2,6 +2,7 @@ import React from "react";
 import './Filters.scss'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTag, faBuilding, faStairs, faSliders } from '@fortawesome/free-solid-svg-icons'
+import CustomToggle from "../CustomToggle/CustomToggle";
 
 export default function Filters() {
 
@@ -33,8 +34,7 @@ export default function Filters() {
             <p className="result-num">1248 results</p>
          </article>
          <div className="filters--roommates">
-            <label htmlFor="toggle-button">Roommates</label>
-            <input type="checkbox" id="toggle-button" className="toggle-button" defaultChecked/>
+            <CustomToggle label="Roommates" name="roommates" checked={true} />
          </div>
          <div className="filters--buttons">
             <button className="button price"><FontAwesomeIcon icon={faTag} className="icon" />Price</button>

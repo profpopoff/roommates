@@ -10,9 +10,14 @@
    height: 100vh;
    overflow: hidden;
    display: grid;
-   grid-template-rows: min-content 89vh;
+   grid-template-rows: min-content calc(100vh - 120px);
 
    &.apartment {
+      overflow-y: auto;
+      grid-template-rows: min-content 1fr;
+   }
+
+   &.create-property {
       overflow-y: auto;
       grid-template-rows: min-content 1fr;
    }
@@ -73,12 +78,30 @@
    }
 }
 
-// * register
-.container--register {
+.container {
    width: 100vw;
-   height: 100vh;
+   height: calc(100vh - 120px);
    display: flex;
    align-items: center;
    justify-content: center;
    position: relative;
+}
+
+// * register
+.regiser-container {
+   height: 100vh;
+}
+
+.container-beyonde {
+   margin-inline: auto;
+   width: clamp(30rem, 97vw, 60rem);
+   padding-block: 1rem;
+   display: flex;
+   justify-content: center;
+   height: calc(100vh - 120px);
+}
+
+// * create property
+.create-property-container {
+   height: auto;
 }

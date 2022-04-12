@@ -1,0 +1,51 @@
+@import '../../styles/variables';
+
+.message {
+   display: flex;
+   flex-direction: column;
+   margin-bottom: 1rem;
+
+   &.own {
+      align-items: flex-end;
+
+      .message-body {
+         flex-direction: row-reverse;
+      }
+
+      .message-text {
+         border-radius: 1rem .2rem 1rem 1rem;
+      }
+
+      .message-time {
+         align-self: flex-end;
+      }
+   }
+
+   &-body {
+      display: flex;
+      gap: .5rem;
+      align-items: flex-start;
+   }
+
+   &-text {
+      display: flex;
+      flex-direction: column;
+      padding: .5rem .7rem;
+      max-width: 35rem;
+      background-color: getColor(background-main);
+      border-radius: .2rem 1rem 1rem 1rem;
+   }
+   
+   &-img {
+      width: 2rem;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      object-fit: cover;
+   }
+
+   &-time {
+      color: getColor(text-grey);
+      font-size: .7rem;
+      font-weight: 300;
+   }
+}

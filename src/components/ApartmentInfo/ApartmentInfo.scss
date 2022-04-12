@@ -22,7 +22,7 @@
       display: grid;
       grid-template-columns: minmax(0, 46rem) 5.5rem;
       gap: 1rem;
-      height: 32rem;
+      height: 24rem;
 
       .image {
          border-radius: .5rem;
@@ -37,7 +37,7 @@
 
       .active {
          grid-column: 1;
-         grid-row: 1/6;
+         grid-row: 1/5;
          
          img {
             width:100%;
@@ -65,6 +65,15 @@
             color: getColor(text-main);
             font-weight: 300;
             font-size: 1.7rem;
+         }
+      }
+
+      .price {
+         font-weight: 400;
+
+         span {
+            font-weight: 700;
+            font-size: 2rem;
          }
       }
    }
@@ -134,7 +143,7 @@
             aspect-ratio: 1;
             background-color: getColor(accent-color);
             font-size: 1.7rem;
-            color: getColor(text-main);
+            color: #fff;
             text-align: center;
             display: flex;
             flex-direction: column;
@@ -228,20 +237,7 @@
       }
    }
 
-   &--price {
-      grid-area: price;
-      place-self: end start;
-      h2{
-         font-weight: 400;
-
-         span {
-            font-weight: 700;
-            font-size: 2rem;
-         }
-      }
-     
-      
-   }
+   
 
    &--stats {
       grid-area: stats;
@@ -277,5 +273,6 @@
       grid-area: desc;
       font-weight: 400;
       font-size: 1.7rem;
+      white-space: pre-wrap;
    }
 }

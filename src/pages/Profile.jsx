@@ -1,9 +1,11 @@
 import React from "react"
+import ProfileComp from '../components/ProfileComp/ProfileComp'
 
 export default function Profile() {
+
    return (
-      <main>
-         Profile page
+      <main className="container">
+         <ProfileComp />
       </main>
    )
 }
