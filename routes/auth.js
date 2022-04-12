@@ -38,12 +38,13 @@ router.post('/login', async (req, res) => {
          { expiresIn: '3d' }
       )
 
-      // const { password, ...otherInfo } = user._doc
+      const { password, ...otherInfo } = user._doc
 
-      res.status(200).json({token, userId: user._id})
+      res.status(200).json({token, ...otherInfo})
    } catch (error) {
       res.status(500).json(error)
    }
 })
+
 
 module.exports = router

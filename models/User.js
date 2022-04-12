@@ -7,7 +7,7 @@ const UserSchema = new mongoose.Schema(
       password: { type: String, required: true },
       isAdmin: { type: Boolean, default: false },
       phoneNumber: { type: String, required: true, unique: true },
-      aprtments: [{ type: mongoose.Types.ObjectId, ref: 'Apartment' }]
+      // aprtments: [{ type: mongoose.Types.ObjectId, ref: 'Apartments' }]
    },
    { timestamps: true }
 )
