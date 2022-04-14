@@ -8,7 +8,7 @@ const ApartmentsSchema = new mongoose.Schema(
       amount: { type: Number, required: true },
       currency: { type: String },
       per: { type: String, required: true },
-      images: [{ type: String, required: true }],
+      images: { type: Array },
       desc: { type: String, required: true },
       conveniences: { type: Array },
       floor: { type: Number, required: true },
