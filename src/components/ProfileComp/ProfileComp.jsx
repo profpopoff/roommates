@@ -1,7 +1,9 @@
 import React from "react"
+import axios from 'axios'
 import { Link } from 'react-router-dom'
 import './ProfileComp.scss'
-import userImg from '../../assets/cover.jpeg'
+import FileBase64 from 'react-file-base64'
+import userImg from '../../assets/default-user.png'
 import { AuthContex } from "../../context/AuthContext"
 import { useHttp } from "../../hooks/http.hook"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -15,6 +17,8 @@ export default function Profile() {
 
    const {loading, request, error} = useHttp()
 
+   const PF = process.env.REACT_APP_PUBLIC_FOLDER
+
    const [editActive, setEditActive] = React.useState(false)
 
    const [editForm, setEditForm] = React.useState({})
@@ -23,10 +27,27 @@ export default function Profile() {
       setEditForm({...editForm, [event.target.name]: event.target.value})
    }
 
-   const editHandler = async () => {
+   const [file, setFile] = React.useState(null)
+
+   const editHandler = async (e) => {
+      e.preventDefault()
+
+      const updatedProfile = {...editForm}
+
+      if (file) {
+         const data = new FormData()
+         const fileName = Date.now() + file.name
+         updatedProfile.profilePicture = fileName
+         data.append("name", fileName)
+         data.append("file", file)
+         try {
+            await axios.post("/api/upload", data)
+         } catch (err) {}
+      }
+
       try {
-         const data = await request(`/api/users/${auth.userId}`, 'PUT', {...editForm}, {token: `Bearer ${auth.token}`})
-         auth.update(data.fullName, data.email, data.phoneNumber)
+         const data = await request(`/api/users/${auth.userId}`, 'PUT', updatedProfile, {token: `Bearer ${auth.token}`})
+         auth.update(auth.userId, auth.token, data.fullName, data.email, data.phoneNumber, data.profilePicture)
          setEditActive(false)
       } catch (error) {}
    }
@@ -34,7 +55,7 @@ export default function Profile() {
    return (
       <main className="profile-comp">
          <div className="profile-comp--image">
-            <img src={userImg} alt="User" />
+            <img src={auth.userPicture ? PF + auth.userPicture : userImg} alt="User" />
          </div>
          <article className="profile-comp--info">
             <h3 className="name">{auth.userName}</h3>
@@ -44,7 +65,7 @@ export default function Profile() {
          <nav className="profile-comp--btns">
             <Modal active = {editActive} setActive={setEditActive}>
                <h2 className="title">Редактировать</h2>
-               <form action="/">
+               <form onSubmit={editHandler}>
                   <CustomInput 
                      name='email'
                      label='Почта'
@@ -52,13 +73,6 @@ export default function Profile() {
                      value={auth.userEmail}
                      handleChange={changeEditHandler}
                   />
-                  {/* <CustomInput 
-                     name='password'
-                     label='Password'
-                     type='password'
-                     value={1234}
-                     handleChange={changeEditHandler}
-                  /> */}
                   <CustomInput 
                      name='fullName'
                      label='Имя'
@@ -73,7 +87,13 @@ export default function Profile() {
                      value={auth.userPhone}
                      handleChange={changeEditHandler}
                   />
-                  <button className="submit-btn" onClick={editHandler} disabled={loading}>Выполнить</button>
+                  <input
+                     type="file"
+                     id="file"
+                     accept=".png,.jpeg,.jpg"
+                     onChange={(e) => setFile(e.target.files[0])}
+                  />
+                  <input type="submit" className="submit-btn" value="Выполнить" />
                   {error && <h4 className='error'>{error}</h4>}
                </form>
             </Modal>

@@ -26,7 +26,7 @@ export default function Homepage() {
      }, []);
 
    const positions = []
-   apartments.map(apartment => positions.push(apartment.position))
+   apartments?.map(apartment => positions.push(apartment.position))
 
    return (
       <main className="container--home">

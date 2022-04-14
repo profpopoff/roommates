@@ -1,9 +1,11 @@
 import React from "react"
 import axios from 'axios'
 import './Conversation.scss' 
-import userImg from '../../assets/cover.jpeg'
+import userImg from '../../assets/default-user.png'
 
 export default function Conversation(props) {
+
+   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
 
    const [notMe, setNotMe] = React.useState(null)
 
@@ -25,7 +27,7 @@ export default function Conversation(props) {
 
    return (
       <div className="conversation">
-         <img src={userImg} alt="" className="conversation-img" />
+         <img src={notMe?.profilePicture ? PF + notMe.profilePicture : userImg} alt="" className="conversation-img" />
          <span className="conversation-name">{notMe?.fullName}</span>
       </div>
    )

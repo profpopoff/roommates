@@ -1,6 +1,7 @@
 import React from "react"
-import { Link, NavLink } from 'react-router-dom'
-import userImg from '../../assets/cover.jpeg'
+import axios from "axios"
+import { Link, NavLink, useNavigate } from 'react-router-dom'
+import userImg from '../../assets/default-user.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUser, faGear, faCircleInfo, faArrowRightFromBracket} from '@fortawesome/free-solid-svg-icons'
 import './UserMenu.scss'
@@ -12,6 +13,8 @@ export default function UserMenu() {
 
    const auth = React.useContext(AuthContex)
 
+   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
+   
    const [settingsActive, setSettingsActive] = React.useState(false)
 
    // * State that shows or hides user menu
@@ -41,13 +44,24 @@ export default function UserMenu() {
       auth.logout()
    }
 
+   const navigate = useNavigate();
+
+   const createConverstion = async () => {
+      try {
+         const res = await axios.post('/api/conversations', {senderId: auth.userId, receiverId: '62584757fe8b86daa4da4e2f'})
+         navigate("/chats");
+      } catch (error) {
+         console.log(error)
+      }
+   }
+
    // * User menu rendering
    return (
       <div ref={ref} className="user-menu">
          <div className="user-button" onClick={toggleMenu}>
             <h3 className="user-button--name">{auth.userName}</h3>
             <div className="user-button--image">
-               <img src={userImg} alt="User image" />
+               <img src={auth.userPicture ? PF + auth.userPicture : userImg} alt="User image" />
             </div>
          </div>
          <ul className="user-menu--list" data-visible={showMenu}>
@@ -59,12 +73,16 @@ export default function UserMenu() {
             <li>
                <button className='user-menu--link' onClick={() => {setSettingsActive(true)}}><FontAwesomeIcon icon={faGear} className="menu-icon" />Настройки</button>
             </li>
-            <li><NavLink to={process.env.PUBLIC_URL + '/help'} className="user-menu--link" onClick={toggleMenu}>
-               <FontAwesomeIcon icon={faCircleInfo} className="menu-icon" />Помошь</NavLink>
+            <li>
+               {/* <NavLink to={process.env.PUBLIC_URL + '/help'} className="user-menu--link" onClick={toggleMenu}>
+                  <FontAwesomeIcon icon={faCircleInfo} className="menu-icon" />Помошь
+               </NavLink> */}
+               <button className='user-menu--link' onClick={createConverstion}><FontAwesomeIcon icon={faCircleInfo} className="menu-icon" />Помошь</button>
             </li>
             <li onClick={logoutHandler}>
                <Link to={process.env.PUBLIC_URL + '/'} className="user-menu--link" >
-               <FontAwesomeIcon icon={faArrowRightFromBracket} className="menu-icon" />Выйти</Link>
+                  <FontAwesomeIcon icon={faArrowRightFromBracket} className="menu-icon" />Выйти
+               </Link>
             </li>
          </ul>
          <Modal active = {settingsActive} setActive={setSettingsActive}>

@@ -12,10 +12,10 @@ import { useAuth } from './hooks/auth.hook'
 import { AuthContex } from './context/AuthContext'
 
 export default function App() {
-  const { token, login, logout, userId, userName, userEmail, userPhone, isAuthenticated, update } = useAuth()
+  const { token, login, logout, userId, userName, userEmail, userPhone, userPicture, isAuthenticated, update } = useAuth()
   return (
     <AuthContex.Provider value={{
-      token, login, logout, userId, isAuthenticated, userName, userEmail, userPhone, update
+      token, login, logout, userId, isAuthenticated, userName, userEmail, userPhone, userPicture, update
     }}>
       <Routes>
         <Route path={process.env.PUBLIC_URL + '/'} element={<Layout />}>

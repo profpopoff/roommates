@@ -1,4 +1,6 @@
 import React from "react"
+import axios from "axios"
+import _ from 'lodash'
 import './CreatePropertyComp.scss'
 import CustomInput from "../CustomInput/CustomInput"
 import CustomTextarea from "../CustomTextarea/CustomTextarea"
@@ -15,6 +17,10 @@ export default function CreatePropertyComp() {
    const [success, setSuccess] = React.useState(false)
 
    const [propertyForm, setPropertyForm] = React.useState({landlordId: auth.userId})
+
+   const [files, setFiles] = React.useState([])
+   // const [file, setFile] = React.useState([])
+   // console.log(files)
 
    const changeHandler = event => {
       setPropertyForm({...propertyForm, [event.target.name]: event.target.value})
@@ -38,19 +44,6 @@ export default function CreatePropertyComp() {
       }
    }
 
-   const createHandler = async () => {
-      const coordinates = []
-      fetch(`http://api.positionstack.com/v1/forward?access_key=${process.env.REACT_APP_GEOCODER_TOKEN}&query=${propertyForm.address}`)
-         .then(response => response.json())
-         .then(data => coordinates.push(data.data[0].longitude, data.data[0].latitude))
-      setPropertyForm({...propertyForm, currency: currency, per: per, conveniences: [...conveniences], coordinates: coordinates})
-      try {
-         // console.log(propertyForm)
-         const data = await request('/api/apartments', 'POST', {...propertyForm}, {token: `Bearer ${auth.token}`})
-         setSuccess(true)
-      } catch (error) {}
-   }
-
    const currencyRef = React.useRef(null);
    const perRef = React.useRef(null);
 
@@ -70,8 +63,57 @@ export default function CreatePropertyComp() {
       }
    }, [showCurrency, showPer])
 
+   const [progress, setProgress] = React.useState()
+
+   const createHandler = async (e) => {
+      e.preventDefault()
+
+      const coordinates = []
+      fetch(`http://api.positionstack.com/v1/forward?access_key=${process.env.REACT_APP_GEOCODER_TOKEN}&query=${propertyForm.address}`)
+         .then(response => response.json())
+         .then(data => coordinates.push(data.data[0].longitude, data.data[0].latitude))
+      setPropertyForm({...propertyForm, currency: currency, per: per, conveniences: [...conveniences], coordinates: coordinates})
+
+      const createProperty = {...propertyForm}
+
+      const propertyImages = []
+
+      if (files) {
+         for (const file in files) {
+            const data = new FormData()
+            const fileName = Date.now() + files[file].name
+            propertyImages.push(fileName)
+            data.append("name", fileName)
+            data.append("file", files[file])
+            const upload = async () => {
+               try {
+                  await axios.post("/api/upload", data,
+                  {
+                     headers: {
+                        "Content-Type": "multipart/form-data",
+                     },
+                     onUploadProgress: data => {
+                        //Set the progress value to show the progress bar
+                        setProgress(Math.round((100 * data.loaded) / data.total))
+                     },
+                  })
+               } catch (err) {}
+            }
+            upload()
+         }
+         propertyImages.splice(propertyImages.length - 2, 2)
+         createProperty.images = propertyImages
+      }
+
+      try {
+         // console.log(propertyForm)
+         const data = await request('/api/apartments', 'POST', createProperty, {token: `Bearer ${auth.token}`})
+         setSuccess(true)
+      } catch (error) {}
+   }
+
    return (
-      <div className="create-property-comp">
+      <form className="create-property-comp" onSubmit={createHandler}>
          <h2 className="title">Добавление записи о недвижимости</h2>
          <CustomInput label="Заголовок" name="title" type="text" handleChange={changeHandler} />
          <CustomInput label="Адрес" name="address" type="text" handleChange={changeHandler} />
@@ -107,10 +149,19 @@ export default function CreatePropertyComp() {
             <CustomToggle name='паркинг' label="Парковка" checked={false} onChange={addConvenience} />
             <CustomToggle name='можно с животными' label="Можно с животными" checked={false} onChange={addConvenience} />
          </div>
-         <button className="submit-btn" onClick={createHandler} disabled={loading}>Выполнить</button>
+         <input
+            type="file"
+            multiple 
+            id="file"
+            accept=".png,.jpeg,.jpg"
+            onChange={(e) => setFiles(e.target.files)}
+            />
+         <input type="submit" className="submit-btn" value="Выполнить" />
+         {/* <button className="submit-btn" onClick={createHandler} disabled={loading}>Выполнить</button> */}
+         {progress && (progress === 100 ? <h1 className="success">{progress}%</h1> : <h1 className="error">Загрузка...</h1>) }
          {success && <h4 className="success">Запись успешно создана.</h4>}
          {error && <h4 className="error">{error}</h4>}
-      </div>
+      </form>
       
    )
 }

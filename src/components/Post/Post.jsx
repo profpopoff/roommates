@@ -11,6 +11,8 @@ export default function Post(props) {
 
    const [isFavourite, setIsFavourite] = React.useState(false)
 
+   const PF = process.env.REACT_APP_PUBLIC_FOLDER
+
    const toggleIsFavourite = () => setIsFavourite(!isFavourite)
 
    const conveniencesElement = props.conveniences.slice(0, 6).map((convenience, index) => (
@@ -26,11 +28,13 @@ export default function Post(props) {
       return 0
    }
 
+   console.log(props)
+
    return (
       <div className="post">
          <Link to={process.env.PUBLIC_URL + '/apartment'} className="image">
             <picture>
-               <img src={image} alt="image" />
+               <img src={PF + props.images[0]} alt="image" />
             </picture>
          </Link>
          <article className="post--article">

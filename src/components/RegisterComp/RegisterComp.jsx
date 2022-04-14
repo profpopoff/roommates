@@ -1,4 +1,5 @@
-import React from "react";
+import React from "react"
+import axios from 'axios'
 import { Link } from 'react-router-dom'
 import './RegisterComp.scss'
 import logo from '../../assets/logo.svg'
@@ -16,18 +17,34 @@ export default function RegisterComp() {
       email: '', password: '', fullName: '', phoneNumber: ''
    })
 
-   // React.useEffect(() => {
-   //    message(error)
-   //    cleareError()
-   // }, [error, message, cleareError])
+   const [file, setFile] = React.useState(null)
 
    const changeHandler = event => {
       setForm({...form, [event.target.name]: event.target.value})
    }
 
-   const registerHandler = async () => {
+   const registerHandler = async (e) => {
+      e.preventDefault()
+
+      const createProfile = {
+         ...form,
+      }
+
+      if (file) {
+         const data = new FormData()
+         const fileName = Date.now() + file.name
+         // setEditForm({...editForm, profilePicture: fileName})
+         createProfile.profilePicture = fileName
+         data.append("name", fileName)
+         data.append("file", file)
+         
+         try {
+            await axios.post("/api/upload", data)
+         } catch (err) {}
+      }
+
       try {
-         const data = await request('/api/auth/register', 'POST', {...form})
+         const data = await request('/api/auth/register', 'POST', {...createProfile})
          setSuccess(true)
       } catch (error) {}
    }
@@ -44,39 +61,45 @@ export default function RegisterComp() {
             <LanguageSelect />
          </div>
          <h2 className="title">Регистрация</h2>
-            <form action="/">
+            <form onSubmit={registerHandler}>
                <CustomInput 
                   name='email'
-                  label='Email'
+                  label='Почта'
                   type='email'
                   handleChange={changeHandler}
                />
                <CustomInput 
                   name='password'
-                  label='Password'
+                  label='Пароль'
                   type='password'
                   handleChange={changeHandler}
                />
                <CustomInput 
                   name='repeat-password'
-                  label='Repeat password'
+                  label='Повторите пароль'
                   type='password'
                   // handleChange={changeHandler}
                />
                <CustomInput 
                   name='fullName'
-                  label='Name'
+                  label='Имя'
                   type='text'
                   handleChange={changeHandler}
                />
                <CustomInput 
                   name='phoneNumber'
-                  label='Phone'
+                  label='Телефон'
                   type='phone'
                   handleChange={changeHandler}
                />
-               {/* <input className='submit-btn' type="submit" value='Submit'/> */}
-               <button className="submit-btn" onClick={registerHandler} disabled={loading}>Выполнить</button>
+               <input
+                     type="file"
+                     id="file"
+                     accept=".png,.jpeg,.jpg"
+                     onChange={(e) => setFile(e.target.files[0])}
+                  />
+               <input className='submit-btn' type="submit" value='Выполнить'/>
+               {/* <button className="submit-btn" onClick={registerHandler} disabled={loading}>Выполнить</button> */}
                {success && <h4 className="success">Пользователь успешно создан.</h4>}
                {error && <h4 className="error">{error}</h4>}
             </form>

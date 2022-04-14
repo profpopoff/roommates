@@ -7,7 +7,7 @@ export default function LanguageSelect() {
    const [showLanguage, setShowLanguage] = React.useState(false)
 
    // * state that shows what language is chosen
-   const [language, setLanguage] = React.useState('en')
+   const [language, setLanguage] = React.useState('ru')
 
    // * Function that toggles language menu state
    const toggleLanguageMenu = () => setShowLanguage(!showLanguage)
@@ -33,8 +33,8 @@ export default function LanguageSelect() {
       <div ref={ref}  className="language-select" data-visible={showLanguage}>
          <h3 className="language-select--name" onClick={toggleLanguageMenu}>{language}</h3>
          <ul className="language-select--list">
-            <li onClick={() => {setLanguage('en'); toggleLanguageMenu()}}>en</li>
             <li onClick={() => {setLanguage('ru'); toggleLanguageMenu()}}>ru</li>
+            <li onClick={() => {setLanguage('en'); toggleLanguageMenu()}}>en</li>
          </ul>
       </div>
    )

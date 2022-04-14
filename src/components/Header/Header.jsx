@@ -32,7 +32,7 @@ export default function Header() {
    const loginHandler = async () => {
       try {
          const data = await request('/api/auth/login', 'POST', {...loginForm})
-         auth.login(data.token, data._id, data.fullName, data.email, data.phoneNumber)
+         auth.login(data.token, data._id, data.fullName, data.email, data.phoneNumber, data.profilePicture)
          setLoginActive(false)
       } catch (error) {}
    }

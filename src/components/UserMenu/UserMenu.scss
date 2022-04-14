@@ -42,7 +42,7 @@
 
    .user-menu--list {
       position: absolute;
-      min-width: 10rem;
+      min-width: 11rem;
       right: 0;
       top: 10rem;
       border-radius: 0.75rem;
@@ -89,6 +89,7 @@
             -ms-user-select: none;
             user-select: none;
             transition: .15s;
+            cursor: pointer;
 
             .menu-icon {
                margin-right: .7rem;
