@@ -25,17 +25,17 @@ export default function Homepage() {
          });
      }, []);
 
-   const positions = []
-   apartments?.map(apartment => positions.push(apartment.position))
+   // const positions = []
+   // apartments?.map(apartment => positions.push(apartment.position))
 
    return (
       <main className="container--home">
          {
             !isLoading ?
             <>
-               <Filters />
+               <Filters data={apartments} />
                <Posts data={apartments} />
-               {/* <Map data={apartments} /> */}
+               <Map data={apartments} />
             </>
             :
             <Loading />

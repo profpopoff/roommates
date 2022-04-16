@@ -62,7 +62,7 @@ export default function Map(props) {
          coordinates={data.coordinates}
          anchor={"bottom"}
          >
-            <h3 className="popup--address"><FontAwesomeIcon icon={faLocationDot} className="icon" /> {data.address.substring(data.address.indexOf(',') + 1)}</h3>
+            <h3 className="popup--address"><FontAwesomeIcon icon={faLocationDot} className="icon" /> {data.street}, д.{data.houseNum}, кв.{data.apartmentNum}</h3>
             <div className="bottom">
                <span className='popup--price'>{data.amount}{data.currency} /{data.per}</span>
                <Link className='popup--details' to={process.env.PUBLIC_URL + `/apartment/${data._id}`}>Подробная информция</Link>

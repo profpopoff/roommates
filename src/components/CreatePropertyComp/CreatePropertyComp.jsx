@@ -1,6 +1,6 @@
 import React from "react"
 import axios from "axios"
-import _ from 'lodash'
+import _, { property } from 'lodash'
 import './CreatePropertyComp.scss'
 import CustomInput from "../CustomInput/CustomInput"
 import CustomTextarea from "../CustomTextarea/CustomTextarea"
@@ -19,8 +19,6 @@ export default function CreatePropertyComp() {
    const [propertyForm, setPropertyForm] = React.useState({landlordId: auth.userId})
 
    const [files, setFiles] = React.useState([])
-   // const [file, setFile] = React.useState([])
-   // console.log(files)
 
    const changeHandler = event => {
       setPropertyForm({...propertyForm, [event.target.name]: event.target.value})
@@ -68,16 +66,15 @@ export default function CreatePropertyComp() {
    const createHandler = async (e) => {
       e.preventDefault()
 
-      const coordinates = []
-      fetch(`http://api.positionstack.com/v1/forward?access_key=${process.env.REACT_APP_GEOCODER_TOKEN}&query=${propertyForm.address}`)
-         .then(response => response.json())
-         .then(data => coordinates.push(data.data[0].longitude, data.data[0].latitude))
-      setPropertyForm({...propertyForm, currency: currency, per: per, conveniences: [...conveniences], coordinates: coordinates})
 
       const createProperty = {...propertyForm}
+      createProperty.per = per
+      createProperty.currency = currency
+      createProperty.conveniences = conveniences
 
+      
       const propertyImages = []
-
+      
       if (files) {
          for (const file in files) {
             const data = new FormData()
@@ -93,7 +90,6 @@ export default function CreatePropertyComp() {
                         "Content-Type": "multipart/form-data",
                      },
                      onUploadProgress: data => {
-                        //Set the progress value to show the progress bar
                         setProgress(Math.round((100 * data.loaded) / data.total))
                      },
                   })
@@ -105,18 +101,46 @@ export default function CreatePropertyComp() {
          createProperty.images = propertyImages
       }
 
-      try {
-         // console.log(propertyForm)
-         const data = await request('/api/apartments', 'POST', createProperty, {token: `Bearer ${auth.token}`})
-         setSuccess(true)
-      } catch (error) {}
+      const finalPost = async () => {
+         try {
+            console.log(createProperty)
+            await axios.post("/api/apartments", createProperty, {headers: {"token": `Bearer ${auth.token}`}})
+            .then(function (response) {
+               addCoords(response.data._id)
+            })
+            setSuccess(true)
+         } catch (error) {}
+      }
+      finalPost()
+
+      const addCoords = async (id) => {
+         const address = `${createProperty.city}, ${createProperty.street}, ${createProperty.houseNum}`
+         const coordinates = []
+         fetch(`http://api.positionstack.com/v1/forward?access_key=${process.env.REACT_APP_GEOCODER_TOKEN}&query=${address}`)
+            .then(response => response.json())
+            .then(data => {
+               coordinates.push(data.data[0].longitude, data.data[0].latitude)
+               putCoords()
+            })
+
+         const putCoords = async () => {
+            try {
+               const data = await request(`/api/apartments/${id}`, 'PUT', {coordinates: coordinates}, {token: `Bearer ${auth.token}`})
+            } catch (error) {}
+         }
+      }
    }
 
    return (
       <form className="create-property-comp" onSubmit={createHandler}>
          <h2 className="title">Добавление записи о недвижимости</h2>
          <CustomInput label="Заголовок" name="title" type="text" handleChange={changeHandler} />
-         <CustomInput label="Адрес" name="address" type="text" handleChange={changeHandler} />
+         <CustomInput label="Город" name="city" type="text" handleChange={changeHandler} />
+         <CustomInput label="Улица" name="street" type="text" handleChange={changeHandler} />
+         <div className="numbers">
+            <CustomInput label="Дом" name="houseNum" type="text" handleChange={changeHandler} />
+            <CustomInput label="Квартира" name="apartmentNum" type="number" handleChange={changeHandler} />
+         </div>
          <div className="price">
             <CustomInput label="Цена" name="amount" type="number" handleChange={changeHandler} />
             <label ref={currencyRef} className="select" data-visible={showCurrency} onClick={toggleCurrnecyList}>{currency}
@@ -146,19 +170,25 @@ export default function CreatePropertyComp() {
             <CustomToggle name='кондиционер' label="Кондиционер" checked={false} onChange={addConvenience} />
             <CustomToggle name='балкон' label="Балкон" checked={false} onChange={addConvenience} />
             <CustomToggle name='стриальная машина' label="Стиральная машина" checked={false} onChange={addConvenience} />
-            <CustomToggle name='паркинг' label="Парковка" checked={false} onChange={addConvenience} />
+            <CustomToggle name='паркинг' label="Паркинг" checked={false} onChange={addConvenience} />
+            <CustomToggle name='теплый пол' label="Теплый пол" checked={false} onChange={addConvenience} />
+            <CustomToggle name='духовка' label="Духовка" checked={false} onChange={addConvenience} />
+            <CustomToggle name='микроволновка' label="Микроволновка" checked={false} onChange={addConvenience} />
+            <CustomToggle name='холодильник' label="Холодильник" checked={false} onChange={addConvenience} />
+            <CustomToggle name='пылесос' label="Пылесос" checked={false} onChange={addConvenience} />
+            <CustomToggle name='телевизор' label="Телевизор" checked={false} onChange={addConvenience} />
             <CustomToggle name='можно с животными' label="Можно с животными" checked={false} onChange={addConvenience} />
+            <CustomToggle name='можно с детьми' label="Можно с детьми" checked={false} onChange={addConvenience} />
          </div>
          <input
+            className="files"
             type="file"
             multiple 
             id="file"
-            accept=".png,.jpeg,.jpg"
+            accept=".png,.jpeg,.jpg,.webp"
             onChange={(e) => setFiles(e.target.files)}
             />
          <input type="submit" className="submit-btn" value="Выполнить" />
-         {/* <button className="submit-btn" onClick={createHandler} disabled={loading}>Выполнить</button> */}
-         {progress && (progress === 100 ? <h1 className="success">{progress}%</h1> : <h1 className="error">Загрузка...</h1>) }
          {success && <h4 className="success">Запись успешно создана.</h4>}
          {error && <h4 className="error">{error}</h4>}
       </form>

@@ -117,7 +117,7 @@ export default function CustomScrollDiv({ children, className, ...restProps }) {
          className={`scrollhost ${className}`}
          {...restProps}
          >
-         {children}
+            {children}
          </div>
          <div className={"scroll-bar"} style={{ opacity: hovering ? 1 : 0 }}>
          <div

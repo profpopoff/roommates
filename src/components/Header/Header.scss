@@ -91,6 +91,22 @@
          aspect-ratio: 1;
          color: getColor(text-grey);
          transition: .3s;
+         position: relative;
+
+         .notification {
+            position: absolute;
+            top: .5rem;
+            right: .5rem;
+            display: block;
+            height: 1.15rem;
+            aspect-ratio: 1;
+            border-radius: 50%;
+            font-size: .8rem;
+            text-align: center;
+            background-color: getColor(accent-color);
+            color: getColor(text-main);
+            outline: 2px solid getColor(background-element);
+         }
 
          &.active {
             color: getColor(accent-color);

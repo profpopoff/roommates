@@ -18,7 +18,7 @@
 
    &--images {
       grid-area: images;
-      height: 24rem;
+      height: 30.1rem;
       display: flex;
       gap: 1rem;
       
@@ -26,6 +26,9 @@
       .active-image {
          flex: 8;
          position: relative;
+         border-radius: .7rem;
+         overflow: hidden;
+         background-color: getColor(text-grey);
 
          &:hover {
             .img-btn {
@@ -65,9 +68,8 @@
          .image {
             width: 100%;
             height: 100%;
-            border-radius: .7rem;
             object-position: center;
-            object-fit: cover;
+            object-fit: contain;
          }
       }
 
@@ -104,13 +106,9 @@
 
       .address {
          margin-bottom: .5rem;
-
-         a{
-            text-decoration: none;
-            color: getColor(text-main);
-            font-weight: 300;
-            font-size: 1.7rem;
-         }
+         color: getColor(text-main);
+         font-weight: 300;
+         font-size: 1.7rem;
       }
 
       .price {
@@ -319,5 +317,12 @@
       font-weight: 400;
       font-size: 1.7rem;
       white-space: pre-wrap;
+
+      .map {
+         width: 40%;
+         aspect-ratio: 3/2;
+         float: right;
+         margin: 0 0 1rem 1rem;
+      }
    }
 }

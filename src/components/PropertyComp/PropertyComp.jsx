@@ -52,7 +52,10 @@ export default function PropertyComp(props) {
       <div className="property" key={property._id}>
          <div className="left">
             <div className="property--title">{property.title}</div>
-            <div className="property--address"><FontAwesomeIcon icon={faLocationDot} className="icon" /> {property.address}</div>
+            {/* <div className="property--address"><FontAwesomeIcon icon={faLocationDot} className="icon" /> {property.address}</div> */}
+            <div className="property--address">
+               <FontAwesomeIcon icon={faLocationDot} className="icon" /> {property.city}, {property.street}, д.{property.houseNum}, кв.{property.apartmentNum}
+            </div>
             <div className="property--price"><span>{property.currency}{property.amount}</span>/{property.per}</div>
          </div>
          <div className="right">
@@ -85,30 +88,16 @@ export default function PropertyComp(props) {
             <form action="/">
                <CustomInput 
                   name='title'
-                  label='Title'
+                  label='Название'
                   type='text'
                   value={data.title}
                   handleChange={changeEditForm}
                />
                <CustomInput 
                   name='amount'
-                  label='Price'
+                  label='Цена'
                   type='number'
                   value={data.amount}
-                  handleChange={changeEditForm}
-               />
-               <CustomInput 
-                  name='currency'
-                  label='Currency'
-                  type='text'
-                  value={data.currency}
-                  handleChange={changeEditForm}
-               />
-               <CustomInput 
-                  name='per'
-                  label='Per'
-                  type='text'
-                  value={data.per}
                   handleChange={changeEditForm}
                />
                <CustomTextarea 

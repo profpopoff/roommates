@@ -5,7 +5,7 @@ import ScrollBar from "../ScrollBar/ScrollBar"
 
 export default function Posts(props) {
 
-   const postElements = props.data.map(apartment => (
+   const postElements = props.data.slice(0).reverse().map(apartment => (
       <Post 
          key={apartment._id}
          {...apartment}

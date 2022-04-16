@@ -12,6 +12,13 @@
    width: 55rem;
    gap: .5rem;
 
+   .numbers {
+      width: 36rem;
+      display: flex;
+      gap: 2rem;
+      justify-content: space-between;
+   }
+
    .price {
       display: flex;
       width: 20rem;
@@ -31,6 +38,10 @@
       width: 70%;
       row-gap: .5rem;
       column-gap: 3rem;
+   }
+
+   .files {
+      margin-top: 1rem;
    }
 
    .select {

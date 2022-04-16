@@ -9,7 +9,9 @@
    transition: .15s;
 
    &:hover {
-      color: getColor(accent-color);
+      .conversation-name {
+         color: getColor(accent-color);
+      }
    }
 
    &-img {
@@ -22,5 +24,14 @@
    &-name {
       font-size: 1.2rem;
       font-weight: 400;
+   }
+
+   .notification {
+      display: inline-block;
+      height: 2rem;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      font-size: 1.55rem;
+      background-color: getColor(accent-color);
    }
 }

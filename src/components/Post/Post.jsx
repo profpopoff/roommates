@@ -28,18 +28,18 @@ export default function Post(props) {
       return 0
    }
 
-   console.log(props)
-
    return (
       <div className="post">
-         <Link to={process.env.PUBLIC_URL + '/apartment'} className="image">
+         <Link to={process.env.PUBLIC_URL + `/apartment/${props._id}`} className="image">
             <picture>
                <img src={PF + props.images[0]} alt="image" />
             </picture>
          </Link>
          <article className="post--article">
             <h2 className="title"><Link to={process.env.PUBLIC_URL + `/apartment/${props._id}`}>{props.title}</Link></h2>
-            <h3 className="address"><a href="#"><FontAwesomeIcon icon={faLocationDot} className="icon" />{props.address}</a></h3>
+            <h3 className="address">
+               <FontAwesomeIcon icon={faLocationDot} className="icon" /> {props.city}, {props.street}, д.{props.houseNum}, кв.{props.apartmentNum}
+            </h3>
          </article>
          <button className="add-to-favourites" onClick={toggleIsFavourite}>
             {isFavourite ? <FontAwesomeIcon icon={faHeartSolid} /> : <FontAwesomeIcon icon={faHeartRegular} />}

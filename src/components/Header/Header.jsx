@@ -51,7 +51,7 @@ export default function Header() {
             {
                location === 'home' &&
                <form action="/" className="search-form"> 
-                  <input type="text" placeholder="Search" className="search-input" />
+                  <input type="text" placeholder="Поиск" className="search-input" />
                   <button className="search-button"><FontAwesomeIcon icon={faMagnifyingGlass} className="search-icon" /><span className="sr-only">Search</span></button>
                </form>
             }
@@ -68,7 +68,9 @@ export default function Header() {
                      <NavLink to={process.env.PUBLIC_URL + '/chats'} className="primary-navigation--link chats-link">
                         <FontAwesomeIcon icon={faComments} className="icon" />
                         <span className="sr-only">Чаты</span>
+                        {auth.notification && <span className="notification">!</span>}
                      </NavLink>
+                     
                   </li>
                   <li>
                      <NavLink to={process.env.PUBLIC_URL + '/favourites'} className="primary-navigation--link favourites-link">

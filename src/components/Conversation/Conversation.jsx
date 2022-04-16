@@ -2,10 +2,13 @@ import React from "react"
 import axios from 'axios'
 import './Conversation.scss' 
 import userImg from '../../assets/default-user.png'
+import { AuthContex } from '../../context/AuthContext'
 
 export default function Conversation(props) {
 
    const PF = process.env.REACT_APP_PUBLIC_FOLDER;
+
+   const auth = React.useContext(AuthContex)
 
    const [notMe, setNotMe] = React.useState(null)
 
@@ -29,6 +32,7 @@ export default function Conversation(props) {
       <div className="conversation">
          <img src={notMe?.profilePicture ? PF + notMe.profilePicture : userImg} alt="" className="conversation-img" />
          <span className="conversation-name">{notMe?.fullName}</span>
+         {auth.notification && <span className="notification">!</span>}
       </div>
    )
 }

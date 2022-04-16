@@ -6,7 +6,10 @@ import Conversation from "../Conversation/Conversation"
 import { AuthContex } from '../../context/AuthContext'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPaperPlane, faTaxi } from '@fortawesome/free-solid-svg-icons'
-import { io } from 'socket.io-client'
+import io from 'socket.io-client'
+
+const ENDPOINT = 'http://localhost:5000'
+let socket, selectedChatCompare
 
 export default function ChatBox() {
 
@@ -16,31 +19,9 @@ export default function ChatBox() {
    const [currentChat, setCurrentChat] = React.useState(null)
    const [messages, setMessages] = React.useState([])
    const [newMessage, setNewMessage] = React.useState('')
-   const [arrivalMessage, setArrivalMessage] = React.useState(null)
-   const socket = React.useRef()
+
+   const [socketConnected, setSocketConnected] = React.useState(false)
    const scrollRef = React.useRef()
-
-   React.useEffect(() => {
-      socket.current = io('ws://localhost:8900')
-      socket.current.on('getMessage', data => {
-         setArrivalMessage({
-            sender: data.senderId,
-            text: data.text,
-            createdAt: Date.now()
-         })
-      })
-   }, [])
-
-   React.useEffect(() => {
-      arrivalMessage && currentChat?.members.includes(arrivalMessage.sender) &&
-      setMessages(prev => [...prev, arrivalMessage])
-   }, [arrivalMessage, currentChat])
-
-   React.useEffect(() => {
-      socket.current.emit('addUser', auth.userId)
-      socket.current.on('getUsers', users => console.log(users))
-      socket.current.on('disconnect', users => console.log(users))
-   }, [auth.userId])
 
    React.useEffect(() => {
       const getConversations = async () => {
@@ -54,36 +35,73 @@ export default function ChatBox() {
       getConversations()
    }, [auth.userId])
 
+   // * /////////////////
+   // * SOCKETION SHIT
+   // * /////////////////
+
+   React.useEffect(() => {
+      socket = io(ENDPOINT)
+      socket.emit('setup', auth.userId)
+      socket.on('connection', () => console.log('connected to socket'))
+   }, [])
+
    React.useEffect(() => {
       const getMessages = async () => {
          try {
             const res = await axios.get('api/messages/' + currentChat?._id)
             setMessages(res.data)
+
+            // * /////////////////
+            // * SOCKETION SHIT
+            // * /////////////////
+            currentChat && socket.emit('join chat', currentChat._id)
          } catch (error) {
             console.log(error)
          }
       }
       getMessages()
+
+      selectedChatCompare = currentChat
+      // console.log(selectedChatCompare)
    }, [currentChat])
+
+   // * /////////////////
+   // * SOCKETION SHIT
+   // * /////////////////
+
+   React.useEffect(() => {
+      socket.on('message recieved', (newMessageRecieved) => {
+         if (!selectedChatCompare || selectedChatCompare._id !== newMessageRecieved.conversationId) {
+            
+               auth.setNotification(true)
+         } else {
+            setMessages([...messages, newMessageRecieved])
+         }
+      })
+   })
 
    const handleSubmit = async (e) => {
       e.preventDefault()
-      const message = {
-         sender: auth.userId,
-         text: newMessage,
-         conversationId: currentChat._id
-      }
 
       const receiverId = currentChat.members.find(member => member !== auth.userId)
 
-      socket.current.emit('sendMessage', {
-         senderId: auth.userId,
-         receiverId, 
-         text: newMessage
-      })
+      const message = {
+         sender: auth.userId,
+         // receiver: receiverId,
+         text: newMessage,
+         members: [receiverId, auth.userId],
+         conversationId: currentChat._id
+      }
 
       try {
          const res = await axios.post('api/messages', message)
+
+         // * /////////////////
+         // * SOCKETION SHIT
+         // * /////////////////
+         // console.log(res.data)
+         socket.emit('new message', res.data)
+
          setMessages([...messages, res.data])
          setNewMessage('')
       } catch (error) {
@@ -92,7 +110,7 @@ export default function ChatBox() {
    }
 
    React.useEffect(() => {
-      scrollRef.current?.scrollIntoView({behavior: 'smooth'})
+      scrollRef.current?.scrollIntoView()
    }, [messages])
 
    const [conversationUser, setConversationUser] = React.useState()
@@ -101,22 +119,27 @@ export default function ChatBox() {
       const otherMember = currentChat?.members.find(member => member !== auth.userId)
 
       const getUser = async () => {
-         try {
-            const res = await axios.get('api/users/find/' + otherMember)
-            setConversationUser(res.data)
-         } catch (error) {
-            console.log(error)
-         }
+         if (otherMember) {
+            try {
+               const res = await axios.get('api/users/find/' + otherMember)
+               setConversationUser(res.data)
+            } catch (error) {
+               console.log(error)
+            }
+         } else {return}
+         
       }
       getUser()
    }, [currentChat])
+
+  
 
    return (
       <>
       <div className="chat-menu">
          <h2>Доступные собеседники</h2>
          {conversations.map(conversation => (
-            <div key={conversation._id} onClick={() => setCurrentChat(conversation)}>
+            <div key={conversation._id} onClick={() => {setCurrentChat(conversation); auth.setNotification(false)}}>
                <Conversation conversation={conversation} userId={auth.userId} />
             </div>
          ))}
