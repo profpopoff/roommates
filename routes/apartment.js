@@ -4,7 +4,9 @@ const { verifyToken, verifyTokenAndAutherization, verifyTokenAndAdmin } = requir
 
 // * CREATE
 router.post('/', verifyToken, async (req, res) => {
+   // console.log(req.body)
    const newApartment = new Apartment(req.body)
+// console.log(newApartment)
 
    try {
       const savedApartment = await newApartment.save()
