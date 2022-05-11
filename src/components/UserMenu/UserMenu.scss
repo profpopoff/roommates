@@ -109,8 +109,20 @@
          }
       }
    }
+
+   .setting:not(:last-child) {
+      margin-bottom: 1rem;
+   }
    
    .theme {
       margin-top: 1.5rem;
+   }
+
+   .language {
+      display: flex;
+      gap: 1rem;
+      h3 {
+         padding-top: .7rem;
+      }
    }
 }

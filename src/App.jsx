@@ -12,42 +12,14 @@ import CreateProperty from './pages/CreateProperty'
 import { useAuth } from './hooks/auth.hook'
 import { AuthContex } from './context/AuthContext'
 import io from 'socket.io-client'
-
-// const ENDPOINT = 'http://localhost:5000'
-// let socket, selectedChatCompare
-
 export default function App() {
   const { token, login, logout, userId, userName, userEmail, userPhone, userPicture, isAuthenticated, update } = useAuth()
 
-  // React.useEffect(() => {
-  //   socket = io(ENDPOINT)
-  //   socket.emit('setup', userId)
-  //   socket.on('connection', () => console.log('connected to socket'))
-  // }, [])
-
-  // const [messages, setMessages] = React.useState([])
   const [notification, setNotification] = React.useState(false)
-
-    // React.useEffect(() => {
-    //   socket.on('message recieved', (newMessageRecieved) => {
-    //      // console.log(newMessageRecieved)
-    //     if (!selectedChatCompare || selectedChatCompare._id !== newMessageRecieved.conversationId) {
-    //       // * give notification
-    //       if (!notification.includes(newMessageRecieved)) {
-    //         setNotification([newMessageRecieved, ...notification])
-              
-    //       }
-    //       // auth.setNotification()
-    //     } else {
-    //       setMessages([...messages, newMessageRecieved])
-    //     }
-    //   })
-    // })
     
   return (
     <AuthContex.Provider value={{
-      token, login, logout, userId, isAuthenticated, userName, userEmail, userPhone, userPicture, update, notification, setNotification, 
-      // socket, messages, setMessages
+      token, login, logout, userId, isAuthenticated, userName, userEmail, userPhone, userPicture, update, notification, setNotification
     }}>
       <Routes>
         <Route path={process.env.PUBLIC_URL + '/'} element={<Layout />}>

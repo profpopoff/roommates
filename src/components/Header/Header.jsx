@@ -7,8 +7,10 @@ import './Header.scss'
 import logo from '../../assets/logo.svg'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
+import { faGear } from '@fortawesome/free-solid-svg-icons'
 import { faComments, faHeart, faBuilding } from '@fortawesome/free-regular-svg-icons'
 import CustomInput from '../CustomInput/CustomInput'
+import CustomToggle from '../CustomToggle/CustomToggle'
 import { useHttp } from '../../hooks/http.hook'
 import { AuthContex } from '../../context/AuthContext'
 
@@ -22,6 +24,8 @@ export default function Header() {
    const [loginActive, setLoginActive] = React.useState(false)
 
    const {loading, request, error} = useHttp()
+
+   const [settingsActive, setSettingsActive] = React.useState(false)
 
    const [loginForm, setLoginForm] = React.useState({})
 
@@ -82,9 +86,9 @@ export default function Header() {
                      <UserMenu />
                   </li>
                   
-                  <li className="header__item--language">
+                  {/* <li className="header__item--language">
                      <LanguageSelect />
-                  </li>
+                  </li> */}
                </nav>
                :
                <nav className="primary-navigation">
@@ -119,9 +123,25 @@ export default function Header() {
                         Регистрация
                      </NavLink>
                   </li>
-                  <li className="header__item--language">
-                     <LanguageSelect />
+
+                  <li>
+                     <button className='primary-navigation--link' onClick={() => {setSettingsActive(true)}}><FontAwesomeIcon icon={faGear} className="menu-icon" /></button>
                   </li>
+
+                  <Modal active = {settingsActive} setActive={setSettingsActive}>
+                     <h2 className="title"><FontAwesomeIcon icon={faGear} className="menu-icon" /> Настройки</h2>
+                     <div className="theme setting">
+                        <CustomToggle label="Темная тема" name="theme"/>
+                     </div>
+                     <div className="language setting">
+                           <h3>Язык</h3>
+                           <LanguageSelect />
+                     </div>
+                  </Modal>
+
+                  {/* <li className="header__item--language">
+                     <LanguageSelect />
+                  </li> */}
                </nav> 
             }
          </div>

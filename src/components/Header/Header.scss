@@ -92,6 +92,9 @@
          color: getColor(text-grey);
          transition: .3s;
          position: relative;
+         background-color: transparent;
+         border: none;
+         cursor: pointer;
 
          .notification {
             position: absolute;
@@ -106,6 +109,10 @@
             background-color: getColor(accent-color);
             color: getColor(text-main);
             outline: 2px solid getColor(background-element);
+         }
+
+         &:hover {
+            color: getColor(accent-color);
          }
 
          &.active {
@@ -148,8 +155,22 @@
             border-color: getColor(accent-color);
          }
       }
+   }
 
-      
+   .setting:not(:last-child) {
+      margin-bottom: 1rem;
+   }
+   
+   .theme {
+      margin-top: 1.5rem;
+   }
+
+   .language {
+      display: flex;
+      gap: 1rem;
+      h3 {
+         padding-top: .7rem;
+      }
    }
 }
 

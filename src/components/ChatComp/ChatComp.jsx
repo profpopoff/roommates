@@ -19,8 +19,6 @@ export default function ChatBox() {
    const [currentChat, setCurrentChat] = React.useState(null)
    const [messages, setMessages] = React.useState([])
    const [newMessage, setNewMessage] = React.useState('')
-
-   const [socketConnected, setSocketConnected] = React.useState(false)
    const scrollRef = React.useRef()
 
    React.useEffect(() => {
@@ -35,10 +33,6 @@ export default function ChatBox() {
       getConversations()
    }, [auth.userId])
 
-   // * /////////////////
-   // * SOCKETION SHIT
-   // * /////////////////
-
    React.useEffect(() => {
       socket = io(ENDPOINT)
       socket.emit('setup', auth.userId)
@@ -50,10 +44,6 @@ export default function ChatBox() {
          try {
             const res = await axios.get('api/messages/' + currentChat?._id)
             setMessages(res.data)
-
-            // * /////////////////
-            // * SOCKETION SHIT
-            // * /////////////////
             currentChat && socket.emit('join chat', currentChat._id)
          } catch (error) {
             console.log(error)
@@ -62,12 +52,7 @@ export default function ChatBox() {
       getMessages()
 
       selectedChatCompare = currentChat
-      // console.log(selectedChatCompare)
    }, [currentChat])
-
-   // * /////////////////
-   // * SOCKETION SHIT
-   // * /////////////////
 
    React.useEffect(() => {
       socket.on('message recieved', (newMessageRecieved) => {
@@ -87,7 +72,6 @@ export default function ChatBox() {
 
       const message = {
          sender: auth.userId,
-         // receiver: receiverId,
          text: newMessage,
          members: [receiverId, auth.userId],
          conversationId: currentChat._id
@@ -95,11 +79,6 @@ export default function ChatBox() {
 
       try {
          const res = await axios.post('api/messages', message)
-
-         // * /////////////////
-         // * SOCKETION SHIT
-         // * /////////////////
-         // console.log(res.data)
          socket.emit('new message', res.data)
 
          setMessages([...messages, res.data])

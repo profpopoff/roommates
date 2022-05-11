@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUser, faGear, faCircleInfo, faArrowRightFromBracket} from '@fortawesome/free-solid-svg-icons'
 import './UserMenu.scss'
 import { AuthContex } from '../../context/AuthContext'
+import LanguageSelect from "../LanguageSelect/LanguageSelect"
 import Modal from "../Modal/Modal"
 import CustomToggle from "../CustomToggle/CustomToggle"
 
@@ -74,9 +75,6 @@ export default function UserMenu() {
                <button className='user-menu--link' onClick={() => {setSettingsActive(true)}}><FontAwesomeIcon icon={faGear} className="menu-icon" />Настройки</button>
             </li>
             <li>
-               {/* <NavLink to={process.env.PUBLIC_URL + '/help'} className="user-menu--link" onClick={toggleMenu}>
-                  <FontAwesomeIcon icon={faCircleInfo} className="menu-icon" />Помошь
-               </NavLink> */}
                <button className='user-menu--link' onClick={createConverstion}><FontAwesomeIcon icon={faCircleInfo} className="menu-icon" />Помошь</button>
             </li>
             <li onClick={logoutHandler}>
@@ -87,8 +85,12 @@ export default function UserMenu() {
          </ul>
          <Modal active = {settingsActive} setActive={setSettingsActive}>
             <h2 className="title"><FontAwesomeIcon icon={faGear} className="menu-icon" /> Настройки</h2>
-            <div className="theme">
+            <div className="theme setting">
                <CustomToggle label="Темная тема" name="theme"/>
+            </div>
+            <div className="language setting">
+                  <h3>Язык</h3>
+                  <LanguageSelect />
             </div>
          </Modal>
       </div>

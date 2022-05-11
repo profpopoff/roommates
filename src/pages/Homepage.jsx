@@ -35,7 +35,7 @@ export default function Homepage() {
             <>
                <Filters data={apartments} />
                <Posts data={apartments} />
-               <Map data={apartments} />
+               {/* <Map data={apartments} /> */}
             </>
             :
             <Loading />

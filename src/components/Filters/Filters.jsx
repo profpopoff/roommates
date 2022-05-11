@@ -1,13 +1,17 @@
-import React from "react";
+import React from "react"
 import './Filters.scss'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTag, faBuilding, faStairs, faSliders } from '@fortawesome/free-solid-svg-icons'
-import CustomToggle from "../CustomToggle/CustomToggle";
+import CustomToggle from "../CustomToggle/CustomToggle"
+import Modal from "../Modal/Modal"
+import MultiRangeSlider from "../MultiRangeSlider/MultiRangeSlider"
 
 export default function Filters(props) {
 
    const [showSortBy, setShowSortBy] = React.useState(false)
    const [sortBy, setSortBy] = React.useState('Дате')
+
+   const [priceActive, setPriceActive] = React.useState(false)
 
    const toggleShowSortBy = () => setShowSortBy(!showSortBy)
 
@@ -37,7 +41,16 @@ export default function Filters(props) {
             <CustomToggle label="Соседи" name="roommates" checked={true} />
          </div>
          <div className="filters--buttons">
-            <button className="button price"><FontAwesomeIcon icon={faTag} className="icon" />Цена</button>
+            <button className="button price" onClick={() => {setPriceActive(true)}}><FontAwesomeIcon icon={faTag} className="icon" />Цена</button>
+            <Modal active = {priceActive} setActive={setPriceActive}>
+               <h2 className="title">Цена</h2>
+               <MultiRangeSlider
+                  min={5000}
+                  max={100000}
+                  onChange={({ min, max }) => console.log(`min = ${min}, max = ${max}`)}
+               />
+               <button className="submit-btn">Применить</button>
+            </Modal>
             <button className="button apartament"><FontAwesomeIcon icon={faBuilding} className="icon" />Тип</button>
             <button className="button floor"><FontAwesomeIcon icon={faStairs} className="icon" />Этаж</button>
             <button className="button more"><FontAwesomeIcon icon={faSliders} className="icon" />Другое</button>
