@@ -1,0 +1,11 @@
+.roommate-img {
+   width: 2.4rem;
+   aspect-ratio: 1;
+   border-radius: 50%;
+   object-fit: cover;
+   margin-bottom: .5rem;
+
+   &:not(:first-child) {
+      margin-left: -.5rem;
+   }
+}

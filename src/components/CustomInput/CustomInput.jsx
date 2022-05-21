@@ -8,7 +8,7 @@ export default function CustomInput(props) {
    return (
       <div className="form__group field">
          <input 
-            autocomplete="off"
+            autoComplete="off"
             type={props.type} 
             className="form__field" 
             placeholder={props.label} 

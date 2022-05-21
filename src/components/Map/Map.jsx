@@ -27,14 +27,21 @@ export default function Map(props) {
                   'coalesce',
                   ['get', 'name_ru'],
                   ['get', 'name'],
-              ]);
+              ])
           }
-      });
-   };
+      })
+   }
+
+   const [priceFilters, setPriceFilters] = React.useState([])
+
+   React.useEffect(() => {
+      setPriceFilters([props.minPrice, props.maxPrice])
+   }, [props.new])
 
    // * Закоментировал, чтобы не тратить вызовы апи
-   const MarkerElements = props.data.map((apartment, index) => {
-      return (
+   const MarkerElements = props.data.map((apartment, index) => (
+      props.roommates ?
+         apartment.roommates[0] && apartment.amount <= priceFilters[1] && apartment.amount >= priceFilters[0] &&
          <Marker 
             key={index}
             className='marker'
@@ -50,9 +57,26 @@ export default function Map(props) {
                   setCenter(apartment.coordinates)
                }}
             />
-         </Marker>
-         )
-      }
+         </Marker> 
+         : 
+         apartment.amount <= priceFilters[1] && apartment.amount >= priceFilters[0] &&
+         <Marker 
+            key={index}
+            className='marker'
+            coordinates={apartment.coordinates}
+            anchor={"bottom"}
+         >
+            <FontAwesomeIcon 
+               icon={faLocationDot} 
+               className='pin' 
+               onClick={e => {
+                  e.preventDefault()
+                  setSelectedMarker(apartment)
+                  setCenter(apartment.coordinates)
+               }}
+            />
+         </Marker> 
+      )
    )
 
    const customPopup = (data) => {

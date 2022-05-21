@@ -1,7 +1,7 @@
 import React from "react"
 import './Filters.scss'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTag, faBuilding, faStairs, faSliders } from '@fortawesome/free-solid-svg-icons'
+import { faTag, faBuilding, faStairs, faSliders, faArrowDownShortWide, faArrowDownWideShort } from '@fortawesome/free-solid-svg-icons'
 import CustomToggle from "../CustomToggle/CustomToggle"
 import Modal from "../Modal/Modal"
 import MultiRangeSlider from "../MultiRangeSlider/MultiRangeSlider"
@@ -9,7 +9,6 @@ import MultiRangeSlider from "../MultiRangeSlider/MultiRangeSlider"
 export default function Filters(props) {
 
    const [showSortBy, setShowSortBy] = React.useState(false)
-   const [sortBy, setSortBy] = React.useState('Дате')
 
    const [priceActive, setPriceActive] = React.useState(false)
 
@@ -38,7 +37,7 @@ export default function Filters(props) {
             <p className="result-num">{props.data.length} результатов</p>
          </article>
          <div className="filters--roommates">
-            <CustomToggle label="Соседи" name="roommates" checked={true} />
+            <CustomToggle label="Соседи" name="roommates" isTrue={props.roommates} setIsTrue={props.setRoommates} />
          </div>
          <div className="filters--buttons">
             <button className="button price" onClick={() => {setPriceActive(true)}}><FontAwesomeIcon icon={faTag} className="icon" />Цена</button>
@@ -47,20 +46,32 @@ export default function Filters(props) {
                <MultiRangeSlider
                   min={5000}
                   max={100000}
-                  onChange={({ min, max }) => console.log(`min = ${min}, max = ${max}`)}
+                  onChange={({ min, max }) => {props.setMin(min); props.setMax(max)}}
                />
-               <button className="submit-btn">Применить</button>
+               <button className="submit-btn" onClick={() => props.setFilters(!props.new)}>Применить</button>
             </Modal>
             <button className="button apartament"><FontAwesomeIcon icon={faBuilding} className="icon" />Тип</button>
             <button className="button floor"><FontAwesomeIcon icon={faStairs} className="icon" />Этаж</button>
             <button className="button more"><FontAwesomeIcon icon={faSliders} className="icon" />Другое</button>
          </div>
-         <label ref={ref} className="filters--sort-by" data-visible={showSortBy} onClick={toggleShowSortBy}>Сортировать по: <span>{sortBy}</span>
+         <label ref={ref} className="filters--sort-by" data-visible={showSortBy} onClick={toggleShowSortBy}>Сортировать по: <span>
+               {props.sortBy[0] === 'amount' ? 'Цене ' : props.sortBy[0] === 'createdAt' ? 'Новизне ' : props.sortBy[0] === 'area' ? 'Площади ' : 'Отзывам '} 
+               {props.sortBy[1] ? props.sortBy[1] === 'desc' ? <FontAwesomeIcon icon={faArrowDownWideShort} className="icon" /> : <FontAwesomeIcon icon={faArrowDownShortWide} className="icon" /> : null}
+            </span>
             <ul>
-               {sortBy !== 'Цене' && <li onClick={() => {setSortBy('Цене'); toggleShowSortBy()}}>Цене</li>}
-               {sortBy !== 'Отзывам' && <li onClick={() => {setSortBy('Отзывам'); toggleShowSortBy()}}>Отзывам</li>}
-               {sortBy !== 'Дате' && <li onClick={() => {setSortBy('Дате'); toggleShowSortBy()}}>Дате</li>}
-               {sortBy !== 'Площади' && <li onClick={() => {setSortBy('Площади'); toggleShowSortBy()}}>Площади</li>}
+               {
+                  props.sortBy[0] === 'amount' ? 
+                  props.sortBy[1] === 'desc' ? 
+                  <li onClick={() => {props.setSortBy(['amount', 'asc']); toggleShowSortBy()}}>Цене <FontAwesomeIcon icon={faArrowDownShortWide} className="icon" /></li> :
+                  <li onClick={() => {props.setSortBy(['amount', 'desc']); toggleShowSortBy()}}>Цене <FontAwesomeIcon icon={faArrowDownWideShort} className="icon" /></li> :
+                  <>
+                     <li onClick={() => {props.setSortBy(['amount', 'asc']); toggleShowSortBy()}}>Цене <FontAwesomeIcon icon={faArrowDownShortWide} className="icon" /></li>
+                     <li onClick={() => {props.setSortBy(['amount', 'desc']); toggleShowSortBy()}}>Цене <FontAwesomeIcon icon={faArrowDownWideShort} className="icon" /></li>
+                  </>
+               }
+               {props.sortBy[0] !== 'Отзывам' && <li onClick={() => {props.setSortBy(['Отзывам']); toggleShowSortBy()}}>Отзывам</li>}
+               {props.sortBy[0] !== 'createdAt' && <li onClick={() => {props.setSortBy(['createdAt']); toggleShowSortBy()}}>Новизне</li>}
+               {props.sortBy[0] !== 'area' && <li onClick={() => {props.setSortBy(['area']); toggleShowSortBy()}}>Площади</li>}
             </ul>
          </label>
       </div>

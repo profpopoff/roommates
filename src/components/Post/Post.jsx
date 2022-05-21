@@ -1,8 +1,10 @@
 import React from "react"
+import axios from 'axios'
 import { Link } from 'react-router-dom'
 import './Post.scss'
-import StarRatings from 'react-star-ratings';
+import StarRatings from 'react-star-ratings'
 import image from '../../assets/test.jpg'
+import RoommatePicture from "../RoommatePicture/RoommatePicture"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLocationDot, faHeart as faHeartSolid } from '@fortawesome/free-solid-svg-icons'
 import { faHeart as faHeartRegular } from '@fortawesome/free-regular-svg-icons'
@@ -28,12 +30,48 @@ export default function Post(props) {
       return 0
    }
 
+   // const [roommate, setRoommate] = React.useState()
+
+   // React.useEffect(() => {
+   //    const getUser = async (rm) => {
+   //       try {
+   //          const res = await axios.get('api/users/find/' + rm)
+   //          setRoommate(prevRoommate => [...prevRoommate, res.data])
+   //       } catch (error) {
+   //          console.log(error)
+   //       }
+   //    } 
+         
+   //    if (props.roommates[0]) {
+   //       props.roommates.map(rm => {getUser(rm)})
+   //    } 
+   // }, [])
+
+   // console.log(roommate)
+
+
+   const roommatesElements = props.roommates?.map(roommate => (
+      props.roommates[0] && <RoommatePicture key={roommate} userId={roommate} /> 
+   ))
+
    return (
       <div className="post">
-         <Link to={process.env.PUBLIC_URL + `/apartment/${props._id}`} className="image">
+         {/* {roommatesElements} */}
+         
+         <Link to={process.env.PUBLIC_URL + `/apartment/${props._id}`} className={`image ${props.roommates[0] && 'withRm'}`}>
             <picture>
                <img src={PF + props.images[0]} alt="image" />
             </picture>
+            {/* {roommatesElements} */}
+            {
+               props.roommates[0] && 
+               <h4 className="roommates">
+                  <div className="imgs">
+                     {roommatesElements} 
+                  </div>
+                  {props.roommates?.length} сосед{props.roommates?.length > 1 ? props.roommates?.length > 4 ? 'ей' : 'а' : ''}
+               </h4>
+            }
          </Link>
          <article className="post--article">
             <h2 className="title"><Link to={process.env.PUBLIC_URL + `/apartment/${props._id}`}>{props.title}</Link></h2>
