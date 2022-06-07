@@ -1,0 +1,28 @@
+@import '../../styles/variables'; 
+
+.reviews {
+   display: flex;
+   flex-wrap: wrap;
+   gap: 2rem;
+   justify-content: center;
+   margin-top: -3rem;
+   margin-bottom: 2rem;
+
+   .review {
+      max-width: 35rem;
+      height: min-content;
+      padding: 1rem;
+      background-color: getColor(background-element);
+      display: flex;
+      flex-direction: column;
+      gap: .3rem;
+      border-radius: .7rem;
+
+      .rating {
+         display: flex;
+         .num {
+            margin-right: 1rem;
+         }
+      }
+   }
+}

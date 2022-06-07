@@ -61,6 +61,14 @@
             color: getColor(accent-color);
          }
       }
+
+      .toggles {
+         margin-top: 1rem;
+         display: flex;
+         flex-direction: column;
+         gap: .5rem;
+         align-items: center;
+      }
    }
 
    &--sort-by {

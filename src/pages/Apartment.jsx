@@ -31,7 +31,7 @@ export default function Apartment() {
             !isLoading ?
             <>
                <ApartmentInfo {...apartment} />
-               {/* <Reviews /> */}
+               <Reviews reviews={apartment.reviews}/>
             </> 
             :
             <Loading />

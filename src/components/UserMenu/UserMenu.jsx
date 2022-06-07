@@ -21,24 +21,25 @@ export default function UserMenu() {
    // * State that shows or hides user menu
    const [showMenu, setShowMenu] = React.useState(false)
 
-   // * Function that toggles user menu state
-   const toggleMenu = () => setShowMenu(!showMenu)
+   // * Functions that toggles user menu state
+   const toggleMenuON = () => setShowMenu(true)
+   const toggleMenuOFF = () => setShowMenu(false)
 
    // * Detects menu-list component (ref={ref})
    const ref = React.useRef(null);
 
-   // * Detects click outside menu component
-   React.useEffect(() => {
-      const checkIfClickedOutside = e => {
-         if (showMenu && ref.current && !ref.current.contains(e.target)) {
-            toggleMenu()
-         }
-      }
-      document.addEventListener("mousedown", checkIfClickedOutside)
-      return () => {
-         document.removeEventListener("mousedown", checkIfClickedOutside)
-      }
-   }, [showMenu])
+   // // * Detects click outside menu component
+   // React.useEffect(() => {
+   //    const checkIfClickedOutside = e => {
+   //       if (showMenu && ref.current && !ref.current.contains(e.target)) {
+   //          toggleMenu()
+   //       }
+   //    }
+   //    document.addEventListener("mousedown", checkIfClickedOutside)
+   //    return () => {
+   //       document.removeEventListener("mousedown", checkIfClickedOutside)
+   //    }
+   // }, [showMenu])
 
    const logoutHandler = event  => {
       event.preventDefault()
@@ -58,8 +59,8 @@ export default function UserMenu() {
 
    // * User menu rendering
    return (
-      <div ref={ref} className="user-menu">
-         <div className="user-button" onClick={toggleMenu}>
+      <div ref={ref} className="user-menu" onMouseOver={toggleMenuON} onMouseLeave={toggleMenuOFF}>
+         <div className="user-button">
             <h3 className="user-button--name">{auth.userName}</h3>
             <div className="user-button--image">
                <img src={auth.userPicture ? PF + auth.userPicture : userImg} alt="User image" />
@@ -67,7 +68,8 @@ export default function UserMenu() {
          </div>
          <ul className="user-menu--list" data-visible={showMenu}>
             <li>
-               <NavLink to={process.env.PUBLIC_URL + '/profile'} className="user-menu--link" onClick={toggleMenu}>
+               {/* <NavLink to={process.env.PUBLIC_URL + '/profile'} className="user-menu--link" onClick={toggleMenu}> */}
+               <NavLink to={process.env.PUBLIC_URL + '/profile'} className="user-menu--link">
                   <FontAwesomeIcon icon={faUser} className="menu-icon" />Профиль
                </NavLink>
             </li>

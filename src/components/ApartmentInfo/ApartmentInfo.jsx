@@ -6,7 +6,9 @@ import ReactMapboxGl, { ZoomControl, RotationControl, Marker, Popup } from 'reac
 import 'mapbox-gl/dist/mapbox-gl.css'
 import image from '../../assets/test.jpg'
 import roommate from '../../assets/roommate1.png'
+import StarRatings from 'react-star-ratings'
 import { useHttp } from '../../hooks/http.hook'
+import RoommatePicture from "../RoommatePicture/RoommatePicture"
 import userImg from '../../assets/default-user.png'
 import CustomInput from "../CustomInput/CustomInput"
 import Modal from "../Modal/Modal"
@@ -94,6 +96,47 @@ export default function ApartmentInfo(props) {
       } catch (error) {}
    }
 
+   const ratings = [] 
+   props.reviews && props.reviews.map(review => ratings.push(review.rating))
+   const average = (nums) =>{
+      if (nums[0]) {
+         return nums.reduce((a, b) => (a + b)) / nums.length
+      } 
+      return 0
+   }
+
+   const [rms, setRms] = React.useState([])
+
+   const photo = (id) => {
+      const getrm = async () => {
+         try {
+            const res = await axios.get('/api/users/find/' + id)
+            // console.log(res.data)
+            setRms(prevRms => [...prevRms, res.data])
+         } catch (error) {
+            console.log(error)
+         }
+      }
+      getrm()
+   }
+
+   React.useEffect(() => {
+      if (props.roommates) {
+         for(let i in props.roommates) {
+            photo(props.roommates[i])
+         }
+      }
+   }, [props.roommates])
+
+   let names = rms.map(rm => rm.fullName.split(" ")[0])
+
+   const rmsPicture = rms?.map(rm => (
+      <div className="blya-kakzhe-ya-zaebalsya">
+         <img key={rm.profilePicture} src={PF + rm.profilePicture} alt="" className="roommate-img" />
+         <FontAwesomeIcon icon={faComments} className="icon-chat" />
+      </div>
+   ))
+
    return (
       <div className="apartment-info">
          <div className="apartment-info--images">
@@ -116,11 +159,38 @@ export default function ApartmentInfo(props) {
                <FontAwesomeIcon icon={faLocationDot} className="icon" /> {props.city}, {props.street}, д.{props.houseNum}, кв.{props.apartmentNum}
             </h3>
             <h2 className="price"><span>{props.currency}{props.amount}</span> /{props.per}</h2>
+            {
+               ratings.length > 0 &&  
+               <div className="rating">
+                  <span className="num">{average(ratings).toString().substring(0,3)}</span>
+                  <StarRatings
+                     rating={average(ratings)}
+                     starRatedColor="blue"
+                     starDimension="22"
+                     starSpacing="2"
+                     starHoverColor="blue"
+                     name='rating'
+                  />
+               </div> 
+            }
+            
+            {
+               props.roommates[0] && 
+                  <div className="roommates">
+                     <div className="imgs">
+                        {rmsPicture}
+                     </div>
+                        <div className="rms-text">
+                           {props.roommates?.length} сосед{props.roommates?.length > 1 ? props.roommates?.length > 4 ? 'ей' : 'а' : ''}
+                           <h5>{names.join(', ').replace(/, ([^,]*)$/, ' и $1')}</h5>
+                        </div>
+                  </div>
+            }
          </article>
          <div className="apartment-info--landlord">
             <div className="who">
                <h3 className="role">Арендодатель</h3>
-               <a href="tel: +7950-220-9953" className="phone-number">{landlordData?.phoneNumber}</a>
+               {/* <a href="tel: +7950-220-9953" className="phone-number">{landlordData?.phoneNumber}</a> */}
                <h2 className="name">{landlordData?.fullName}</h2>
             </div>
             <div className="img-block">

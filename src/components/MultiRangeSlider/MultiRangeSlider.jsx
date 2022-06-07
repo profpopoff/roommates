@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useState, useRef } from "react";
+import CustomInput from '../CustomInput/CustomInput'
 import classnames from "classnames";
 import PropTypes from "prop-types";
 import "./MultiRangeSlider.scss";
@@ -82,6 +83,24 @@ const MultiRangeSlider = ({ min, max, onChange }) => {
         <div ref={range} className="slider__range" />
         <div className="slider__left-value">{minVal}</div>
         <div className="slider__right-value">{maxVal}</div>
+        {/* <div className="slider__value">
+            <input 
+              type='number' 
+              className="value-input min-value" 
+              value={minVal}
+              onChange={(event) => {
+                setMinVal(event.target.value);
+              }}
+              />
+            <input 
+              type='number' 
+              className="value-input max-value" 
+              value={maxVal}
+              onChange={(event) => {
+                setMaxVal(event.target.value);
+              }}
+              />
+        </div> */}
       </div>
     </div>
   );

@@ -30,39 +30,16 @@ export default function Post(props) {
       return 0
    }
 
-   // const [roommate, setRoommate] = React.useState()
-
-   // React.useEffect(() => {
-   //    const getUser = async (rm) => {
-   //       try {
-   //          const res = await axios.get('api/users/find/' + rm)
-   //          setRoommate(prevRoommate => [...prevRoommate, res.data])
-   //       } catch (error) {
-   //          console.log(error)
-   //       }
-   //    } 
-         
-   //    if (props.roommates[0]) {
-   //       props.roommates.map(rm => {getUser(rm)})
-   //    } 
-   // }, [])
-
-   // console.log(roommate)
-
-
    const roommatesElements = props.roommates?.map(roommate => (
       props.roommates[0] && <RoommatePicture key={roommate} userId={roommate} /> 
    ))
 
    return (
       <div className="post">
-         {/* {roommatesElements} */}
-         
          <Link to={process.env.PUBLIC_URL + `/apartment/${props._id}`} className={`image ${props.roommates[0] && 'withRm'}`}>
             <picture>
                <img src={PF + props.images[0]} alt="image" />
             </picture>
-            {/* {roommatesElements} */}
             {
                props.roommates[0] && 
                <h4 className="roommates">
@@ -95,7 +72,8 @@ export default function Post(props) {
                   starDimension="20"
                   starSpacing="2"
                   starHoverColor="blue"
-                  name='rating'/>
+                  name='rating'
+               />
             </div> 
             :
             <div className="rating">Оценок пока нет</div>

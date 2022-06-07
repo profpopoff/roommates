@@ -11,6 +11,9 @@ export default function Filters(props) {
    const [showSortBy, setShowSortBy] = React.useState(false)
 
    const [priceActive, setPriceActive] = React.useState(false)
+   const [typeActive, setTypeActive] = React.useState(false)
+   const [floorActive, setFloorActive] = React.useState(false)
+   const [filtersActive, setFiltersActive] = React.useState(false)
 
    const toggleShowSortBy = () => setShowSortBy(!showSortBy)
 
@@ -30,14 +33,20 @@ export default function Filters(props) {
       }
    }, [showSortBy])
 
+   const [showIsRoom, setShowIsRoom] = React.useState(false)
+
+   React.useEffect(() => {
+      setShowIsRoom(props.isRoom)
+   }, [props.new])
+
    return (
       <div className="filters">
          <article className="filters--article">
-            <h1 className="title">Квартиры в <span>Санкт-Петербурге</span></h1>
-            <p className="result-num">{props.data.length} результатов</p>
+            <h1 className="title">{showIsRoom ? 'Комнаты' : 'Жилье'} в <span>Санкт-Петербурге</span></h1>
+            <p className="result-num">{showIsRoom ? '4' : props.roommates ? '5' : props.data.length} результат{showIsRoom ? 'а' : 'ов'}</p>
          </article>
          <div className="filters--roommates">
-            <CustomToggle label="Соседи" name="roommates" isTrue={props.roommates} setIsTrue={props.setRoommates} />
+            <CustomToggle label="С соседями" name="roommates" isTrue={props.roommates} setIsTrue={props.setRoommates} />
          </div>
          <div className="filters--buttons">
             <button className="button price" onClick={() => {setPriceActive(true)}}><FontAwesomeIcon icon={faTag} className="icon" />Цена</button>
@@ -48,11 +57,36 @@ export default function Filters(props) {
                   max={100000}
                   onChange={({ min, max }) => {props.setMin(min); props.setMax(max)}}
                />
+               <button className="submit-btn" onClick={() => {props.setFilters(!props.new); setPriceActive(false)}}>Применить</button>
+            </Modal>
+            <button className="button apartament" onClick={() => {setTypeActive(true)}}><FontAwesomeIcon icon={faBuilding} className="icon" />Тип</button>
+            <Modal active = {typeActive} setActive={setTypeActive}>
+               <h2 className="title">Тип</h2>
+               <div className="toggles">
+                  <CustomToggle className="toggle" label="Спальное место" name="bed" isTrue={false} />
+                  <CustomToggle className="toggle" label="Комната" name="room" isTrue={props.isRoom} setIsTrue={props.setIsRoom} />
+                  <CustomToggle className="toggle" label="Квартира" name="flat" isTrue={false} />
+                  <CustomToggle className="toggle" label="Дом" name="house" isTrue={false} />
+                  <CustomToggle className="toggle" label="Таунхаус" name="townhouse" isTrue={false} />
+               </div>
+               <button className="submit-btn" onClick={() => {props.setFilters(!props.new); setTypeActive(false)}}>Применить</button>
+            </Modal>
+            <button className="button floor" onClick={() => {setFloorActive(true)}}><FontAwesomeIcon icon={faStairs} className="icon" />Этаж</button>
+            <Modal active = {floorActive} setActive={setFloorActive}>
+               <h2 className="title">Этаж</h2>
+               <MultiRangeSlider
+                  min={1}
+                  max={14}
+                  onChange={({ min, max }) => {}}
+               />
                <button className="submit-btn" onClick={() => props.setFilters(!props.new)}>Применить</button>
             </Modal>
-            <button className="button apartament"><FontAwesomeIcon icon={faBuilding} className="icon" />Тип</button>
-            <button className="button floor"><FontAwesomeIcon icon={faStairs} className="icon" />Этаж</button>
-            <button className="button more"><FontAwesomeIcon icon={faSliders} className="icon" />Другое</button>
+            <button className="button more" onClick={() => {setFiltersActive(true)}}><FontAwesomeIcon icon={faSliders} className="icon" />Другое</button>
+            <Modal active = {filtersActive} setActive={setFiltersActive}>
+               <h2 className="title">Фильтры</h2>
+               
+               <button className="submit-btn" onClick={() => props.setFilters(!props.new)}>Применить</button>
+            </Modal>
          </div>
          <label ref={ref} className="filters--sort-by" data-visible={showSortBy} onClick={toggleShowSortBy}>Сортировать по: <span>
                {props.sortBy[0] === 'amount' ? 'Цене ' : props.sortBy[0] === 'createdAt' ? 'Новизне ' : props.sortBy[0] === 'area' ? 'Площади ' : 'Отзывам '} 

@@ -1,4 +1,5 @@
 import React from "react"
+import axios from "axios"
 import { Link } from 'react-router-dom'
 import './PropertyComp.scss'
 import { AuthContex } from "../../context/AuthContext"
@@ -10,6 +11,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLocationDot, faCirclePlus } from '@fortawesome/free-solid-svg-icons'
 import { faTrashCan, faPenToSquare } from '@fortawesome/free-regular-svg-icons'
 import CustomTextarea from "../CustomTextarea/CustomTextarea"
+import CustomToggle from '../CustomToggle/CustomToggle'
 
 export default function PropertyComp(props) {
 
@@ -46,7 +48,11 @@ export default function PropertyComp(props) {
       window.location.reload(); 
    }
 
-
+   const showHandler = async (id, value) => {
+      try {
+         const data = await request(`/api/apartments/${id}`, 'PUT', {isOn: value}, {token: `Bearer ${auth.token}`})
+      } catch (error) {console.log(error)}
+   }
 
    const propertyElements = props.data.map(property => (
       <div className="property" key={property._id}>
@@ -59,24 +65,29 @@ export default function PropertyComp(props) {
             <div className="property--price"><span>{property.currency}{property.amount}</span>/{property.per}</div>
          </div>
          <div className="right">
-         <button 
-            className="property-btn edit-btn"
-            onClick={e => {
-            e.preventDefault();
-            setSelectedProperty(property);
-            setEditActive(true)}}
+            <button 
+               className="property-btn edit-btn"
+               onClick={e => {
+               e.preventDefault();
+               setSelectedProperty(property);
+               setEditActive(true)}}
             >
                <FontAwesomeIcon icon={faPenToSquare} className="icon" /> редактировать
             </button>
-            <button 
-            className="property-btn delete-btn"
-            onClick={e => {
-            e.preventDefault();
-            deleteHandler(property._id)
-            }}
-            >
-               <FontAwesomeIcon icon={faTrashCan} className="icon" /> удалить
-            </button>
+            <div className="custom-toggle">
+               <label htmlFor='isShowable'>Отображать</label>
+               <input 
+                  type="checkbox" 
+                  id='isShowable' 
+                  className="toggle-button" 
+                  defaultChecked={property.isOn} 
+                  // checked={property.isOn} 
+                  onChange={(e) => {
+                     e.stopPropagation();
+                     showHandler(property._id, e.target.checked)
+                  }}
+               />
+            </div>
          </div>
       </div>
    ))
@@ -106,8 +117,17 @@ export default function PropertyComp(props) {
                value={data.desc}
                handleChange={changeEditForm}
                />               
-               <button className="submit-btn" onClick={editHandler} disabled={loading}>Выполнить</button>
+               <button className="submit-btn" onClick={e => {e.preventDefault(); editHandler()}} disabled={loading}>Выполнить</button>
                {error && <h4 className='error'>{error}</h4>}
+               <button 
+                  className="property-btn delete-btn"
+                  onClick={e => {
+                  e.preventDefault();
+                  deleteHandler(selectedProperty._id)
+                  }}
+               >
+                  <FontAwesomeIcon icon={faTrashCan} className="icon" /> удалить запись
+               </button>
             </form>
          </Modal>
       )

@@ -19,7 +19,7 @@ export default function RoommatePicture(props) {
          }
       } 
       getUser()
-   }, [])
+   }, [props.userId])
    
    return (
       <img src={roommate?.profilePicture ? PF + roommate.profilePicture : userImg} alt="" className="roommate-img" />

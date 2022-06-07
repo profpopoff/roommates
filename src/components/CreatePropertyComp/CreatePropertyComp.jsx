@@ -169,7 +169,7 @@ export default function CreatePropertyComp() {
             <CustomToggle name='wifi' label="Wifi" checked={false} onChange={addConvenience} />
             <CustomToggle name='кондиционер' label="Кондиционер" checked={false} onChange={addConvenience} />
             <CustomToggle name='балкон' label="Балкон" checked={false} onChange={addConvenience} />
-            <CustomToggle name='стриальная машина' label="Стиральная машина" checked={false} onChange={addConvenience} />
+            <CustomToggle name='стиральная  машина' label="Стиральная машина" checked={false} onChange={addConvenience} />
             <CustomToggle name='паркинг' label="Паркинг" checked={false} onChange={addConvenience} />
             <CustomToggle name='теплый пол' label="Теплый пол" checked={false} onChange={addConvenience} />
             <CustomToggle name='духовка' label="Духовка" checked={false} onChange={addConvenience} />
