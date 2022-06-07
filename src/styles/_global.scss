@@ -15,7 +15,7 @@
 }
 
 .submit-btn {
-   margin-top: 2rem;
+   margin-top: 1rem;
    cursor: pointer;
    background-color: getColor(text-main);
    color: getColor(background-element);
@@ -50,11 +50,29 @@
 }
 
 .delete-btn {
+   font-weight: 400;
    display: block;
    margin-inline: auto;
    margin-top: 1rem;
    border: none;
    color: rgb(255, 38, 0);
+   // color: getColor(accent-color);
+   cursor: pointer;
+   background-color: transparent;
+   text-transform: uppercase;
+}
+
+
+
+.delete-sosed-btn{
+   font-weight: 400;
+   border: none;
+   // color: rgb(255, 38, 0);
+   color: getColor(accent-color);
+   margin-left: .5rem;
+   cursor: pointer;
+   background-color: transparent;
+   text-transform: capitalize;
 }
 
 .error {

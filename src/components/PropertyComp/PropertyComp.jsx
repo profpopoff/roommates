@@ -8,7 +8,7 @@ import ScrollBar from '../ScrollBar/ScrollBar'
 import CustomInput from "../CustomInput/CustomInput"
 import Modal from "../Modal/Modal"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faLocationDot, faCirclePlus } from '@fortawesome/free-solid-svg-icons'
+import { faLocationDot, faCirclePlus, faBed } from '@fortawesome/free-solid-svg-icons'
 import { faTrashCan, faPenToSquare } from '@fortawesome/free-regular-svg-icons'
 import CustomTextarea from "../CustomTextarea/CustomTextarea"
 import CustomToggle from '../CustomToggle/CustomToggle'
@@ -22,6 +22,7 @@ export default function PropertyComp(props) {
    const [selectedProperty, setSelectedProperty] = React.useState(null)
 
    const [editActive, setEditActive] = React.useState(false)
+   const [rmsActive, setRmsActive] = React.useState(false)
 
    const [editForm, setEditForm] = React.useState({})
 
@@ -51,6 +52,16 @@ export default function PropertyComp(props) {
    const showHandler = async (id, value) => {
       try {
          const data = await request(`/api/apartments/${id}`, 'PUT', {isOn: value}, {token: `Bearer ${auth.token}`})
+      } catch (error) {console.log(error)}
+   }
+
+   const eviction = async (userID) => {
+      try {
+         // console.log(selectedProperty.roommates, userID)
+         // console.log(selectedProperty.roommates.slice().filter(item => item !== userID))
+         const data = await request(`/api/apartments/${selectedProperty._id}`, 'PUT', 
+         {roommates: selectedProperty.roommates.slice().filter(item => item !== userID)}, {token: `Bearer ${auth.token}`})
+         console.log(data.res)
       } catch (error) {console.log(error)}
    }
 
@@ -92,6 +103,32 @@ export default function PropertyComp(props) {
       </div>
    ))
 
+   const [rms, setRms] = React.useState([])
+
+   const getrm = async (id) => {
+      try {
+         const res = await axios.get('/api/users/find/' + id)
+         // console.log(res.data)
+         setRms(prevRms => [...prevRms, res.data])
+      } catch (error) {
+         console.log(error)
+      }
+   }
+
+   React.useEffect(() => {
+      for (let i in props.data) {
+         // console.log(props.data[i])
+         if (props.data[i].roommates.length > 0) {
+            for(let j in props.data[i].roommates) {
+               // console.log(props.data[i].roommates[j])
+               getrm(props.data[i].roommates[j])
+            }
+         }
+      }
+   }, [])
+
+   // console.log(rms)
+
    const modalEdit = (data) => {
       return (
          <Modal active = {editActive} setActive={setEditActive}>
@@ -112,15 +149,39 @@ export default function PropertyComp(props) {
                   handleChange={changeEditForm}
                />
                <CustomTextarea 
-               label="Описание" 
-               name="desc" 
-               value={data.desc}
-               handleChange={changeEditForm}
+                  label="Описание" 
+                  name="desc" 
+                  value={data.desc}
+                  handleChange={changeEditForm}
                />               
+               {
+                  data.roommates.length > 0 && 
+                  <div className="sosedi">
+                     <h3 className="sosedi--title"><FontAwesomeIcon icon={faBed} className="icon" /> арендаторы:</h3>
+                     <div className="sosedi--list">
+                        {
+                           data.roommates.map(rm => (
+                              <div className="sosedi--item" key={rm}>
+                                 <h5>{rms.find(item => item._id === rm).fullName}</h5>
+                                 <button 
+                                    className="delete-sosed-btn"
+                                    onClick={e => {
+                                       e.preventDefault(); 
+                                       eviction(rm)
+                                    }}
+                                 >
+                                    <FontAwesomeIcon icon={faTrashCan} className="icon" />
+                                 </button>
+                              </div>
+                           ))
+                        }
+                     </div>
+                  </div>
+               }
                <button className="submit-btn" onClick={e => {e.preventDefault(); editHandler()}} disabled={loading}>Выполнить</button>
                {error && <h4 className='error'>{error}</h4>}
                <button 
-                  className="property-btn delete-btn"
+                  className="delete-btn"
                   onClick={e => {
                   e.preventDefault();
                   deleteHandler(selectedProperty._id)

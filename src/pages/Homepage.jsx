@@ -19,7 +19,10 @@ export default function Homepage() {
    const [sortBy, setSortBy] = React.useState(['createdAt'])
 
    const [withRoommates, setWithRoommates] = React.useState(false)
-   const [isRoom, setIsRoom] = React.useState(false)
+   // const [isRoom, setIsRoom] = React.useState(false)
+   const [isBed, setIsBed] = React.useState(true)
+   
+   const [types, setTypes] = React.useState([])
    
    React.useEffect(() => {
       fetch(`/api/apartments/`)
@@ -37,14 +40,16 @@ export default function Homepage() {
             <>
                <Filters 
                   data={apartments} 
+                  minPrice={priceMin} 
+                  maxPrice={priceMax} 
                   setMin={setPriceMin} 
                   setMax={setPriceMax} 
                   setFilters={setNewFilters} 
                   new={newFilters} 
                   roommates={withRoommates}
                   setRoommates={setWithRoommates}
-                  isRoom={isRoom}
-                  setIsRoom={setIsRoom}
+                  types={types}
+                  setTypes={setTypes}
                   sortBy={sortBy}
                   setSortBy={setSortBy}
                />
@@ -54,18 +59,17 @@ export default function Homepage() {
                   maxPrice={priceMax} 
                   new={newFilters} 
                   roommates={withRoommates}
+                  types={types}
+                  setTypes={setTypes}
                   sortBy={sortBy}
-                  isRoom={isRoom}
-                  setIsRoom={setIsRoom}
                />
                {/* <Map 
-                  data={apartments} 
+                   data={apartments} 
                   minPrice={priceMin} 
                   maxPrice={priceMax} 
                   new={newFilters} 
                   roommates={withRoommates}
-                  isRoom={isRoom}
-                  setIsRoom={setIsRoom}
+                  types={types}
                /> */}
             </>
             :

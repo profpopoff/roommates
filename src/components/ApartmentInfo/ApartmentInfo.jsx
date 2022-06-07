@@ -107,23 +107,20 @@ export default function ApartmentInfo(props) {
 
    const [rms, setRms] = React.useState([])
 
-   const photo = (id) => {
-      const getrm = async () => {
-         try {
-            const res = await axios.get('/api/users/find/' + id)
-            // console.log(res.data)
-            setRms(prevRms => [...prevRms, res.data])
-         } catch (error) {
-            console.log(error)
-         }
+   const getrm = async (id) => {
+      try {
+         const res = await axios.get('/api/users/find/' + id)
+         // console.log(res.data)
+         setRms(prevRms => [...prevRms, res.data])
+      } catch (error) {
+         console.log(error)
       }
-      getrm()
    }
 
    React.useEffect(() => {
       if (props.roommates) {
          for(let i in props.roommates) {
-            photo(props.roommates[i])
+            getrm(props.roommates[i])
          }
       }
    }, [props.roommates])
@@ -133,7 +130,7 @@ export default function ApartmentInfo(props) {
    const rmsPicture = rms?.map(rm => (
       <div className="blya-kakzhe-ya-zaebalsya">
          <img key={rm.profilePicture} src={PF + rm.profilePicture} alt="" className="roommate-img" />
-         <FontAwesomeIcon icon={faComments} className="icon-chat" />
+         <FontAwesomeIcon icon={faComments} className="icon-chat" onClick={e => {e.preventDefault(); console.log(rm)}} />
       </div>
    ))
 

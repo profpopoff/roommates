@@ -26,7 +26,7 @@ export default function Conversation(props) {
       getUser()
    }, [props.userId, props.conversation])
 
-   // console.log(notMe.fullName)
+   console.log(notMe)
 
    return (
       <div className="conversation">

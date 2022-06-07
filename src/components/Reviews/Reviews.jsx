@@ -1,8 +1,11 @@
 import React from "react"
 import './Reviews.scss'
 import StarRatings from 'react-star-ratings'
+import { AuthContex } from '../../context/AuthContext'
 
 export default function Reviews(props) {
+
+   const auth = React.useContext(AuthContex)
 
    const reviewsElement = props.reviews.map(review => (
       <div className="review" key={review._id}>
@@ -22,8 +25,14 @@ export default function Reviews(props) {
       </div>
    ))
 
+   console.log(props.roommates, auth.userId)
+
    return (
       <div className="reviews">
+         {
+            props.roommates?.includes(auth.userId) && 
+            <button className="review-btn">Оставить отзыв</button>
+         }
          {reviewsElement}
       </div>
    )

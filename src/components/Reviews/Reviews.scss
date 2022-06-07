@@ -8,6 +8,22 @@
    margin-top: -3rem;
    margin-bottom: 2rem;
 
+   .review-btn {
+      background-color: getColor(background-element);
+      color: getColor(text-main);
+      border: none;
+      border-radius: .7rem;
+      height: min-content;
+      padding: 2rem;
+      font-size: 1.3rem;
+      cursor: pointer;
+      transition: .2s all ease-in-out;
+
+      &:hover {
+         color: getColor(accent-color);
+      }
+   }
+
    .review {
       max-width: 35rem;
       height: min-content;

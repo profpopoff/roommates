@@ -33,5 +33,28 @@
         transform: scale(1);
     }
   }
+
+  .sosedi {
+    margin-top: 1rem;
+
+    &--title {
+      text-transform: capitalize;
+      font-size: 1.4rem;
+      margin-bottom: .3rem;
+    }
+
+    &--list {
+      display: flex;
+      flex-direction: column;
+      gap: .3rem;
+    }
+
+    &--item {
+      margin-inline: auto;
+      font-size: 1.1rem;
+      display: flex;
+    }
+ }
 }
+
 

@@ -33,21 +33,24 @@ export default function Map(props) {
    }
 
    const [priceFilters, setPriceFilters] = React.useState([])
+   const [typeFilters, setTypeFilters] = React.useState([])
 
    React.useEffect(() => {
       setPriceFilters([props.minPrice, props.maxPrice])
+      setTypeFilters([...props.types])
    }, [props.new])
 
    // * Закоментировал, чтобы не тратить вызовы апи
    const MarkerElements = props.data.map((apartment, index) => (
-      props.roommates ?
-         props.isRoom ? 
-         apartment.isOn && apartment.roommates[0] && apartment.amount <= priceFilters[1] && apartment.amount >= priceFilters[0] && apartment.apartmentType === 'room' &&
-         <Marker 
-         key={index}
-         className='marker'
-         coordinates={apartment.coordinates}
-         anchor={"bottom"}
+      apartment.isOn && 
+      apartment.amount <= priceFilters[1] && apartment.amount >= priceFilters[0] && 
+      !typeFilters.includes(apartment.apartmentType.toLowerCase()) && 
+      ((props.roommates && apartment.roommates[0]) || (!props.roommates && !apartment.roommates[0]) || (!props.roommates && apartment.roommates[0])) &&
+      <Marker 
+      key={index}
+      className='marker'
+      coordinates={apartment.coordinates}
+      anchor={"bottom"}
       >
          <FontAwesomeIcon 
             icon={faLocationDot} 
@@ -59,42 +62,6 @@ export default function Map(props) {
             }}
          />
       </Marker> 
-            :
-            apartment.isOn && apartment.roommates[0] && apartment.amount <= priceFilters[1] && apartment.amount >= priceFilters[0] &&
-         <Marker 
-            key={index}
-            className='marker'
-            coordinates={apartment.coordinates}
-            anchor={"bottom"}
-         >
-            <FontAwesomeIcon 
-               icon={faLocationDot} 
-               className='pin' 
-               onClick={e => {
-                  e.preventDefault()
-                  setSelectedMarker(apartment)
-                  setCenter(apartment.coordinates)
-               }}
-            />
-         </Marker> 
-         : 
-         apartment.isOn && apartment.amount <= priceFilters[1] && apartment.amount >= priceFilters[0] &&
-         <Marker 
-            key={index}
-            className='marker'
-            coordinates={apartment.coordinates}
-            anchor={"bottom"}
-         >
-            <FontAwesomeIcon 
-               icon={faLocationDot} 
-               className='pin' 
-               onClick={e => {
-                  e.preventDefault()
-                  setSelectedMarker(apartment)
-                  setCenter(apartment.coordinates)
-               }}
-            />
-         </Marker> 
       )
    )
 

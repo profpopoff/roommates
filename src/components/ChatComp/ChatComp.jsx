@@ -117,11 +117,13 @@ export default function ChatBox() {
       <>
       <div className="chat-menu">
          <h2>Доступные собеседники</h2>
-         {conversations.map(conversation => (
-            <div key={conversation._id} onClick={() => {setCurrentChat(conversation); auth.setNotification(false)}}>
-               <Conversation conversation={conversation} userId={auth.userId} />
-            </div>
-         ))}
+         {
+            conversations.map(conversation => (
+               <div key={conversation._id} onClick={() => {setCurrentChat(conversation); auth.setNotification(false)}}>
+                  <Conversation conversation={conversation} userId={auth.userId} />
+               </div>
+            ))
+         }
       </div>
       {
          currentChat &&

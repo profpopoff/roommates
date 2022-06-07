@@ -33,20 +33,57 @@ export default function Filters(props) {
       }
    }, [showSortBy])
 
-   const [showIsRoom, setShowIsRoom] = React.useState(false)
+   function enumerate (num, dec) {
+      if (num > 100) num = num % 100;
+      if (num <= 20 && num >= 10) return dec[2];
+      if (num > 20) num = num % 10;
+      return num === 1 ? dec[0] : num > 1 && num < 5 ? dec[1] : dec[2];
+  }
+
+   let resCounter = 0
+
+   const [count, setCount] = React.useState(0)
+
+   for (let i in props.data) {
+      props.data[i].isOn && 
+      props.data[i].amount <= props.maxPrice && props.data[i].amount >= props.minPrice && 
+      !props.types.includes(props.data[i].apartmentType.toLowerCase()) &&
+      ((props.roommates && props.data[i].roommates[0]) || (!props.roommates && !props.data[i].roommates[0]) || (!props.roommates && props.data[i].roommates[0])) &&
+      resCounter++
+   }  
 
    React.useEffect(() => {
-      setShowIsRoom(props.isRoom)
+      setCount(resCounter)
    }, [props.new])
+
+   const [showIsBed, setShowIsBed] = React.useState(true)
+
+   React.useEffect(() => {
+      setShowIsBed(props.isBed)
+   }, [props.new])
+
+
+   const changeTypes = (e) => {
+      if (!e.target.checked) {
+         props.setTypes([...props.types, e.target.value])
+      } else {
+         props.setTypes(prevTypes => prevTypes.filter(item => item !== e.target.value))
+      }
+   }
 
    return (
       <div className="filters">
          <article className="filters--article">
-            <h1 className="title">{showIsRoom ? 'Комнаты' : 'Жилье'} в <span>Санкт-Петербурге</span></h1>
-            <p className="result-num">{showIsRoom ? '4' : props.roommates ? '5' : props.data.length} результат{showIsRoom ? 'а' : 'ов'}</p>
+            <h1 className="title">{!showIsBed ? 'Комнаты' : 'Жилье'} в <span>Санкт-Петербурге</span></h1>
+            <p className="result-num">{count} {enumerate(count, ["результат", "результата", "результатов"])}</p>
          </article>
          <div className="filters--roommates">
-            <CustomToggle label="С соседями" name="roommates" isTrue={props.roommates} setIsTrue={props.setRoommates} />
+            <CustomToggle 
+               label="С соседями" 
+               name="roommates" 
+               isTrue={props.roommates} 
+               onChange={() => {props.setRoommates(!props.roommates); props.setFilters(!props.new)}} 
+            />
          </div>
          <div className="filters--buttons">
             <button className="button price" onClick={() => {setPriceActive(true)}}><FontAwesomeIcon icon={faTag} className="icon" />Цена</button>
@@ -63,11 +100,16 @@ export default function Filters(props) {
             <Modal active = {typeActive} setActive={setTypeActive}>
                <h2 className="title">Тип</h2>
                <div className="toggles">
-                  <CustomToggle className="toggle" label="Спальное место" name="bed" isTrue={false} />
-                  <CustomToggle className="toggle" label="Комната" name="room" isTrue={props.isRoom} setIsTrue={props.setIsRoom} />
-                  <CustomToggle className="toggle" label="Квартира" name="flat" isTrue={false} />
-                  <CustomToggle className="toggle" label="Дом" name="house" isTrue={false} />
-                  <CustomToggle className="toggle" label="Таунхаус" name="townhouse" isTrue={false} />
+                  <CustomToggle className="toggle" label="Спальное место" name="bed" 
+                     isTrue={true} onClick={changeTypes} />
+                  <CustomToggle className="toggle" label="Комната" name="room" 
+                     isTrue={true} onClick={changeTypes} />
+                  <CustomToggle className="toggle" label="Квартира" name="flat" 
+                     isTrue={!props.roommates} disabled={props.roommates} onClick={changeTypes} />
+                  <CustomToggle className="toggle" label="Дом" name="house" 
+                     isTrue={!props.roommates} disabled={props.roommates} onClick={changeTypes} />
+                  <CustomToggle className="toggle" label="Таунхаус" name="townhouse" 
+                     isTrue={!props.roommates} disabled={props.roommates} onClick={changeTypes} />
                </div>
                <button className="submit-btn" onClick={() => {props.setFilters(!props.new); setTypeActive(false)}}>Применить</button>
             </Modal>
@@ -103,7 +145,7 @@ export default function Filters(props) {
                      <li onClick={() => {props.setSortBy(['amount', 'desc']); toggleShowSortBy()}}>Цене <FontAwesomeIcon icon={faArrowDownWideShort} className="icon" /></li>
                   </>
                }
-               {props.sortBy[0] !== 'Отзывам' && <li onClick={() => {props.setSortBy(['Отзывам']); toggleShowSortBy()}}>Отзывам</li>}
+               {props.sortBy[0] !== 'averageRating' && <li onClick={() => {props.setSortBy(['averageRating']); toggleShowSortBy()}}>Отзывам</li>}
                {props.sortBy[0] !== 'createdAt' && <li onClick={() => {props.setSortBy(['createdAt']); toggleShowSortBy()}}>Новизне</li>}
                {props.sortBy[0] !== 'area' && <li onClick={() => {props.setSortBy(['area']); toggleShowSortBy()}}>Площади</li>}
             </ul>

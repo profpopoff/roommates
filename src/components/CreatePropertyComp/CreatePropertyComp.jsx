@@ -41,7 +41,7 @@ export default function CreatePropertyComp() {
          setConveniences(prevConveniences => prevConveniences.filter((_, index) => index !== prevConveniences.length - 1))
       }
    }
-
+   
    const currencyRef = React.useRef(null);
    const perRef = React.useRef(null);
 

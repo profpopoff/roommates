@@ -6,11 +6,11 @@ import ScrollBar from "../ScrollBar/ScrollBar"
 export default function Posts(props) {
 
    const [priceFilters, setPriceFilters] = React.useState([])
-   const [typeFilters, setTypeFilters] = React.useState()
+   const [typeFilters, setTypeFilters] = React.useState([])
 
    React.useEffect(() => {
       setPriceFilters([props.minPrice, props.maxPrice])
-      setTypeFilters([props.isRoom])
+      setTypeFilters([...props.types])
    }, [props.new])
 
    function compareValues(key, order='desc') {
@@ -36,22 +36,26 @@ export default function Posts(props) {
       }
    }
 
-   const postElements = props.data.slice().sort(compareValues(props.sortBy[0], props.sortBy[1])).map(apartment => (
-      props.roommates ?
-         props.isRoom ? 
-         apartment.isOn && apartment.roommates[0] && apartment.amount <= priceFilters[1] && apartment.amount >= priceFilters[0] && apartment.apartmentType === 'room' &&
-            <Post 
-               key={apartment._id}
-               {...apartment}
-            /> 
-            :
-            apartment.isOn && apartment.roommates[0] && apartment.amount <= priceFilters[1] && apartment.amount >= priceFilters[0] &&
-            <Post 
-               key={apartment._id}
-               {...apartment}
-            /> 
-      : 
-      apartment.isOn && apartment.amount <= priceFilters[1] && apartment.amount >= priceFilters[0] && 
+   const apartsArray = props.data.slice()
+
+   const average = (nums) =>{
+      if (nums[0]) {
+         return nums.reduce((a, b) => (a + b)) / nums.length
+      } 
+      return 0
+   }
+
+   apartsArray.map(apartElement => {
+      const ratings = [] 
+      apartElement.reviews && apartElement.reviews.map(review => ratings.push(review.rating))
+      apartElement.averageRating = average(ratings)
+   })
+
+   const postElements = apartsArray.sort(compareValues(props.sortBy[0], props.sortBy[1])).map(apartment => (
+      apartment.isOn && 
+      apartment.amount <= priceFilters[1] && apartment.amount >= priceFilters[0] && 
+      !typeFilters.includes(apartment.apartmentType.toLowerCase()) && 
+      ((props.roommates && apartment.roommates[0]) || (!props.roommates && !apartment.roommates[0]) || (!props.roommates && apartment.roommates[0])) &&
          <Post 
             key={apartment._id}
             {...apartment}
