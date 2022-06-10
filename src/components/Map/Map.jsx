@@ -22,13 +22,13 @@ export default function Map(props) {
 
    const changeMapLanguage = (map) => {
       map.getStyle().layers.forEach((layer) => {
-          if (layer.id.endsWith('-label')) {
-              map.setLayoutProperty(layer.id, 'text-field', [
-                  'coalesce',
-                  ['get', 'name_ru'],
-                  ['get', 'name'],
-              ])
-          }
+         if (layer.id.endsWith('-label')) {
+            map.setLayoutProperty(layer.id, 'text-field', [
+               'coalesce',
+               ['get', 'name_ru'],
+               ['get', 'name'],
+            ])
+         }
       })
    }
 
@@ -42,61 +42,62 @@ export default function Map(props) {
 
    // * Закоментировал, чтобы не тратить вызовы апи
    const MarkerElements = props.data.map((apartment, index) => (
-      apartment.isOn && 
-      apartment.amount <= priceFilters[1] && apartment.amount >= priceFilters[0] && 
-      !typeFilters.includes(apartment.apartmentType.toLowerCase()) && 
+      apartment.isOn &&
+      apartment.amount <= priceFilters[1] && apartment.amount >= priceFilters[0] &&
+      !typeFilters.includes(apartment.apartmentType.toLowerCase()) &&
       ((props.roommates && apartment.roommates[0]) || (!props.roommates && !apartment.roommates[0]) || (!props.roommates && apartment.roommates[0])) &&
-      <Marker 
-      key={index}
-      className='marker'
-      coordinates={apartment.coordinates}
-      anchor={"bottom"}
+      <Marker
+         key={index}
+         className='marker'
+         coordinates={apartment.coordinates}
+         anchor={"bottom"}
       >
-         <FontAwesomeIcon 
-            icon={faLocationDot} 
-            className='pin' 
+         <FontAwesomeIcon
+            icon={faLocationDot}
+            className='pin'
             onClick={e => {
                e.preventDefault()
                setSelectedMarker(apartment)
                setCenter(apartment.coordinates)
             }}
          />
-      </Marker> 
-      )
+      </Marker>
+   )
    )
 
    const customPopup = (data) => {
       return (
-      <Popup
-         className='popup'
-         coordinates={data.coordinates}
-         anchor={"bottom"}
+         <Popup
+            className='popup'
+            coordinates={data.coordinates}
+            anchor={"bottom"}
          >
             <h3 className="popup--address"><FontAwesomeIcon icon={faLocationDot} className="icon" /> {data.street}, д.{data.houseNum}, кв.{data.apartmentNum}</h3>
             <div className="bottom">
                <span className='popup--price'>{data.amount}{data.currency} /{data.per}</span>
                <Link className='popup--details' to={process.env.PUBLIC_URL + `/apartment/${data._id}`}>Подробная информция</Link>
             </div>
-      </Popup>
-   )}
+         </Popup>
+      )
+   }
 
    return (
       <div className="map">
          <MapGL
-         className='mapbox'
-         style="mapbox://styles/mapbox/streets-v11"
-         center={center ? center : [longitude ? longitude : 37.6156, latitude ? latitude : 55.7522]}
-         containerStyle={{
-            height: '100%',
-            width: '100%'
-         }}
-         renderChildrenInPortal={true}
-         onClick={e => {
-            setSelectedMarker(null)
-         }}
-         onStyleLoad={changeMapLanguage}
+            className='mapbox'
+            style="mapbox://styles/mapbox/streets-v11"
+            center={center ? center : [longitude ? longitude : 37.6156, latitude ? latitude : 55.7522]}
+            containerStyle={{
+               height: '100%',
+               width: '100%'
+            }}
+            renderChildrenInPortal={true}
+            onClick={e => {
+               setSelectedMarker(null)
+            }}
+            onStyleLoad={changeMapLanguage}
          >
-            {MarkerElements} 
+            {MarkerElements}
             {selectedMarker && customPopup(selectedMarker)
             }
             <ZoomControl />

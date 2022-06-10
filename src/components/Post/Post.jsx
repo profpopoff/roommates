@@ -78,7 +78,7 @@ export default function Post(props) {
             :
             <div className="rating">Оценок пока нет</div>
          }
-         <div className="price"><span>{props.currency}{props.amount}</span>/{props.per}</div>
+         <div className="price"><span>{props.currency} {props.amount.toString().replace(/(?!^)(?=(?:\d{3})+(?:\.|$))/gm, ' ')}</span>/{props.per}</div>
       </div>
             
    )

@@ -8,7 +8,7 @@ import ScrollBar from '../ScrollBar/ScrollBar'
 import CustomInput from "../CustomInput/CustomInput"
 import Modal from "../Modal/Modal"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faLocationDot, faCirclePlus, faBed } from '@fortawesome/free-solid-svg-icons'
+import { faLocationDot, faCirclePlus, faBed, faRotateLeft } from '@fortawesome/free-solid-svg-icons'
 import { faTrashCan, faPenToSquare } from '@fortawesome/free-regular-svg-icons'
 import CustomTextarea from "../CustomTextarea/CustomTextarea"
 import CustomToggle from '../CustomToggle/CustomToggle'
@@ -22,7 +22,6 @@ export default function PropertyComp(props) {
    const [selectedProperty, setSelectedProperty] = React.useState(null)
 
    const [editActive, setEditActive] = React.useState(false)
-   const [rmsActive, setRmsActive] = React.useState(false)
 
    const [editForm, setEditForm] = React.useState({})
 
@@ -31,6 +30,7 @@ export default function PropertyComp(props) {
    }
 
    const editHandler = async () => {
+      dudToEvict && eviction(dudToEvict)
       try {
          const data = await request(`/api/apartments/${selectedProperty._id}`, 'PUT', {...editForm}, {token: `Bearer ${auth.token}`})
          // setEditActive(false)
@@ -55,13 +55,12 @@ export default function PropertyComp(props) {
       } catch (error) {console.log(error)}
    }
 
+   const [dudToEvict, setDudToEvict] = React.useState()
+
    const eviction = async (userID) => {
       try {
-         // console.log(selectedProperty.roommates, userID)
-         // console.log(selectedProperty.roommates.slice().filter(item => item !== userID))
          const data = await request(`/api/apartments/${selectedProperty._id}`, 'PUT', 
          {roommates: selectedProperty.roommates.slice().filter(item => item !== userID)}, {token: `Bearer ${auth.token}`})
-         console.log(data.res)
       } catch (error) {console.log(error)}
    }
 
@@ -108,7 +107,6 @@ export default function PropertyComp(props) {
    const getrm = async (id) => {
       try {
          const res = await axios.get('/api/users/find/' + id)
-         // console.log(res.data)
          setRms(prevRms => [...prevRms, res.data])
       } catch (error) {
          console.log(error)
@@ -117,17 +115,13 @@ export default function PropertyComp(props) {
 
    React.useEffect(() => {
       for (let i in props.data) {
-         // console.log(props.data[i])
          if (props.data[i].roommates.length > 0) {
             for(let j in props.data[i].roommates) {
-               // console.log(props.data[i].roommates[j])
                getrm(props.data[i].roommates[j])
             }
          }
       }
    }, [])
-
-   // console.log(rms)
 
    const modalEdit = (data) => {
       return (
@@ -161,16 +155,25 @@ export default function PropertyComp(props) {
                      <div className="sosedi--list">
                         {
                            data.roommates.map(rm => (
-                              <div className="sosedi--item" key={rm}>
+                              <div className='sosedi--item' key={rm}>
                                  <h5>{rms.find(item => item._id === rm).fullName}</h5>
                                  <button 
                                     className="delete-sosed-btn"
                                     onClick={e => {
                                        e.preventDefault(); 
-                                       eviction(rm)
+                                       setDudToEvict(rm)
                                     }}
                                  >
-                                    <FontAwesomeIcon icon={faTrashCan} className="icon" />
+                                    {
+                                       dudToEvict ? 
+                                          dudToEvict === rm ? 
+                                          <FontAwesomeIcon icon={faRotateLeft} className="icon" />
+                                          :
+                                          <FontAwesomeIcon icon={faTrashCan} className="icon" />
+                                       :
+                                       <FontAwesomeIcon icon={faTrashCan} className="icon" />
+                                    }
+                                    
                                  </button>
                               </div>
                            ))

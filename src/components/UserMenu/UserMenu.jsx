@@ -73,9 +73,9 @@ export default function UserMenu() {
                   <FontAwesomeIcon icon={faUser} className="menu-icon" />Профиль
                </NavLink>
             </li>
-            <li>
+            {/* <li>
                <button className='user-menu--link' onClick={() => {setSettingsActive(true)}}><FontAwesomeIcon icon={faGear} className="menu-icon" />Настройки</button>
-            </li>
+            </li> */}
             <li>
                <button className='user-menu--link' onClick={createConverstion}><FontAwesomeIcon icon={faCircleInfo} className="menu-icon" />Помошь</button>
             </li>

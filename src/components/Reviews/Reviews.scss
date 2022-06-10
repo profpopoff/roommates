@@ -9,6 +9,7 @@
    margin-bottom: 2rem;
 
    .review-btn {
+      width: min-content;
       background-color: getColor(background-element);
       color: getColor(text-main);
       border: none;
@@ -21,6 +22,17 @@
 
       &:hover {
          color: getColor(accent-color);
+      }
+   }
+
+   .rating-change {
+      margin-top: 1rem;
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+
+      &__title {
+         font-size: 1.3rem;
       }
    }
 

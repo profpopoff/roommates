@@ -167,6 +167,7 @@
                }
 
                .icon-chat {
+                  color: getColor(accent-color);
                   position: absolute;
                   inset: 0;
                   margin: auto;
@@ -254,9 +255,14 @@
             border: none;
             aspect-ratio: 1;
             font-size: 1.7rem;
-            background-color: getColor(accent-color);
-            color: #fff;
+            background-color: getColor(background-element);
+            color: getColor(text-main);
             cursor: pointer;
+            transition: .15s;
+
+            &:hover {
+               color: getColor(accent-color);
+            }
          }
       }
    }

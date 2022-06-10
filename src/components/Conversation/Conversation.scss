@@ -1,37 +1,78 @@
 @import '../../styles/variables';
 
 .conversation {
+   position: relative;
    display: flex;
+   gap: 1rem;
+   justify-content: space-between;
    align-items: center;
    padding: .5rem;
    gap: 1rem;
-   cursor: pointer;
+   // cursor: pointer;
    transition: .15s;
 
-   &:hover {
-      .conversation-name {
-         color: getColor(accent-color);
-      }
-   }
+   // &:hover {
+   //    .conversation-name {
+   //       color: getColor(accent-color);
+   //    }
+   // }
 
    &-img {
       width: 2.5rem;
       aspect-ratio: 1;
       border-radius: 50%;
       object-fit: cover;
+      cursor: pointer;
    }
 
    &-name {
       font-size: 1.2rem;
       font-weight: 400;
+      cursor: pointer;
+
+      &:hover {
+         color: getColor(accent-color);
+      }
+   }
+
+   .conversation-menu {
+      width: 3rem;
+      aspect-ratio: 1;
+      font-size: 1.5rem;
+      background-color: transparent;
+      color: getColor(text-main);
+      border: none;
+      cursor: pointer;
+      transition: .15s;
+
+      &:hover {
+         color: getColor(accent-color);
+      }
    }
 
    .notification {
+      position: absolute;
+      top: .8rem;
+      left: 0;
       display: inline-block;
-      height: 2rem;
+      height: 1.1rem;
       aspect-ratio: 1;
       border-radius: 50%;
-      font-size: 1.55rem;
+      font-size: .8rem;
       background-color: getColor(accent-color);
+   }
+
+   .aaaaaaaa-pomogite {
+      margin-block: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: .7rem;
+
+      .davai-blyat-poterpi {
+         margin-inline: 2rem;
+         display: flex;
+         justify-content: space-between;
+         font-weight: 400;
+      }
    }
 }

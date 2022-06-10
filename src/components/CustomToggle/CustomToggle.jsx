@@ -12,15 +12,15 @@ export default function CustomToggle(props) {
    return (
       <div className="custom-toggle">
          <label htmlFor={props.name}>{props.label}</label>
-         <input 
-            type="checkbox" 
-            id={props.name} 
-            className="toggle-button" 
-            defaultChecked={isTrue} 
-            value={props.name} 
+         <input
+            type="checkbox"
+            id={props.name}
+            className="toggle-button"
+            defaultChecked={isTrue}
+            value={props.name}
             onChange={props.onChange}
             onClick={props.onClick}
-            disabled={props.disabled} 
+            disabled={props.disabled}
          />
       </div>
    )

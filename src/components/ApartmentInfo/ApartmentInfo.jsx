@@ -110,7 +110,6 @@ export default function ApartmentInfo(props) {
    const getrm = async (id) => {
       try {
          const res = await axios.get('/api/users/find/' + id)
-         // console.log(res.data)
          setRms(prevRms => [...prevRms, res.data])
       } catch (error) {
          console.log(error)
@@ -128,9 +127,9 @@ export default function ApartmentInfo(props) {
    let names = rms.map(rm => rm.fullName.split(" ")[0])
 
    const rmsPicture = rms?.map(rm => (
-      <div className="blya-kakzhe-ya-zaebalsya">
+      <div className="blya-kakzhe-ya-zaebalsya" key={rm._id}>
          <img key={rm.profilePicture} src={PF + rm.profilePicture} alt="" className="roommate-img" />
-         <FontAwesomeIcon icon={faComments} className="icon-chat" onClick={e => {e.preventDefault(); console.log(rm)}} />
+         <FontAwesomeIcon icon={faComments} className="icon-chat" onClick={e => {e.preventDefault()}} />
       </div>
    ))
 
@@ -155,7 +154,7 @@ export default function ApartmentInfo(props) {
             <h3 className="address">
                <FontAwesomeIcon icon={faLocationDot} className="icon" /> {props.city}, {props.street}, д.{props.houseNum}, кв.{props.apartmentNum}
             </h3>
-            <h2 className="price"><span>{props.currency}{props.amount}</span> /{props.per}</h2>
+            <h2 className="price"><span>{props.currency} {props.amount.toString().replace(/(?!^)(?=(?:\d{3})+(?:\.|$))/gm, ' ')}</span>/{props.per}</h2>
             {
                ratings.length > 0 &&  
                <div className="rating">

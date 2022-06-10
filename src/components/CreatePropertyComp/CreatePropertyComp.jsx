@@ -12,16 +12,16 @@ export default function CreatePropertyComp() {
 
    const auth = React.useContext(AuthContex)
 
-   const {loading, request, error, cleareError} = useHttp()
+   const { loading, request, error, cleareError } = useHttp()
 
    const [success, setSuccess] = React.useState(false)
 
-   const [propertyForm, setPropertyForm] = React.useState({landlordId: auth.userId})
+   const [propertyForm, setPropertyForm] = React.useState({ landlordId: auth.userId })
 
    const [files, setFiles] = React.useState([])
 
    const changeHandler = event => {
-      setPropertyForm({...propertyForm, [event.target.name]: event.target.value})
+      setPropertyForm({ ...propertyForm, [event.target.name]: event.target.value })
    }
 
    const [currency, setCurrency] = React.useState('₽')
@@ -41,7 +41,7 @@ export default function CreatePropertyComp() {
          setConveniences(prevConveniences => prevConveniences.filter((_, index) => index !== prevConveniences.length - 1))
       }
    }
-   
+
    const currencyRef = React.useRef(null);
    const perRef = React.useRef(null);
 
@@ -50,7 +50,7 @@ export default function CreatePropertyComp() {
       const checkIfClickedOutside = e => {
          if (showCurrency && currencyRef.current && !currencyRef.current.contains(e.target)) {
             toggleCurrnecyList()
-         } 
+         }
          if (showPer && perRef.current && !perRef.current.contains(e.target)) {
             togglePerList()
          }
@@ -67,14 +67,14 @@ export default function CreatePropertyComp() {
       e.preventDefault()
 
 
-      const createProperty = {...propertyForm}
+      const createProperty = { ...propertyForm }
       createProperty.per = per
       createProperty.currency = currency
       createProperty.conveniences = conveniences
 
-      
+
       const propertyImages = []
-      
+
       if (files) {
          for (const file in files) {
             const data = new FormData()
@@ -85,15 +85,15 @@ export default function CreatePropertyComp() {
             const upload = async () => {
                try {
                   await axios.post("/api/upload", data,
-                  {
-                     headers: {
-                        "Content-Type": "multipart/form-data",
-                     },
-                     onUploadProgress: data => {
-                        setProgress(Math.round((100 * data.loaded) / data.total))
-                     },
-                  })
-               } catch (err) {}
+                     {
+                        headers: {
+                           "Content-Type": "multipart/form-data",
+                        },
+                        onUploadProgress: data => {
+                           setProgress(Math.round((100 * data.loaded) / data.total))
+                        },
+                     })
+               } catch (err) { }
             }
             upload()
          }
@@ -103,13 +103,12 @@ export default function CreatePropertyComp() {
 
       const finalPost = async () => {
          try {
-            console.log(createProperty)
-            await axios.post("/api/apartments", createProperty, {headers: {"token": `Bearer ${auth.token}`}})
-            .then(function (response) {
-               addCoords(response.data._id)
-            })
+            await axios.post("/api/apartments", createProperty, { headers: { "token": `Bearer ${auth.token}` } })
+               .then(function (response) {
+                  addCoords(response.data._id)
+               })
             setSuccess(true)
-         } catch (error) {}
+         } catch (error) { }
       }
       finalPost()
 
@@ -125,8 +124,8 @@ export default function CreatePropertyComp() {
 
          const putCoords = async () => {
             try {
-               const data = await request(`/api/apartments/${id}`, 'PUT', {coordinates: coordinates}, {token: `Bearer ${auth.token}`})
-            } catch (error) {}
+               const data = await request(`/api/apartments/${id}`, 'PUT', { coordinates: coordinates }, { token: `Bearer ${auth.token}` })
+            } catch (error) { }
          }
       }
    }
@@ -145,16 +144,16 @@ export default function CreatePropertyComp() {
             <CustomInput label="Цена" name="amount" type="number" handleChange={changeHandler} />
             <label ref={currencyRef} className="select" data-visible={showCurrency} onClick={toggleCurrnecyList}>{currency}
                <ul>
-                  {currency !== '₽' && <li onClick={() => {setCurrency('₽'); toggleCurrnecyList()}}>₽</li>}
-                  {currency !== '$' && <li onClick={() => {setCurrency('$'); toggleCurrnecyList()}}>$</li>}
-                  {currency !== '€' && <li onClick={() => {setCurrency('€'); toggleCurrnecyList()}}>€</li>}
+                  {currency !== '₽' && <li onClick={() => { setCurrency('₽'); toggleCurrnecyList() }}>₽</li>}
+                  {currency !== '$' && <li onClick={() => { setCurrency('$'); toggleCurrnecyList() }}>$</li>}
+                  {currency !== '€' && <li onClick={() => { setCurrency('€'); toggleCurrnecyList() }}>€</li>}
                </ul>
             </label>
             <label ref={perRef} className="select" data-visible={showPer} onClick={togglePerList}> /{per}
                <ul>
-                  {per !== 'месяц' && <li onClick={() => {setPer('месяц'); togglePerList()}}>месяц</li>}
-                  {per !== 'день' && <li onClick={() => {setPer('день'); togglePerList()}}>день</li>}
-                  {per !== 'час' && <li onClick={() => {setPer('час'); togglePerList()}}>час</li>}
+                  {per !== 'месяц' && <li onClick={() => { setPer('месяц'); togglePerList() }}>месяц</li>}
+                  {per !== 'день' && <li onClick={() => { setPer('день'); togglePerList() }}>день</li>}
+                  {per !== 'час' && <li onClick={() => { setPer('час'); togglePerList() }}>час</li>}
                </ul>
             </label>
          </div>
@@ -183,15 +182,15 @@ export default function CreatePropertyComp() {
          <input
             className="files"
             type="file"
-            multiple 
+            multiple
             id="file"
             accept=".png,.jpeg,.jpg,.webp"
             onChange={(e) => setFiles(e.target.files)}
-            />
+         />
          <input type="submit" className="submit-btn" value="Выполнить" />
          {success && <h4 className="success">Запись успешно создана.</h4>}
          {error && <h4 className="error">{error}</h4>}
       </form>
-      
+
    )
 }

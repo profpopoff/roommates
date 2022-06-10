@@ -5,7 +5,7 @@ import Message from "../Message/Message"
 import Conversation from "../Conversation/Conversation"
 import { AuthContex } from '../../context/AuthContext'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPaperPlane, faTaxi } from '@fortawesome/free-solid-svg-icons'
+import { faPaperPlane, faTaxi, faEllipsis } from '@fortawesome/free-solid-svg-icons'
 import io from 'socket.io-client'
 
 const ENDPOINT = 'http://localhost:5000'
@@ -119,8 +119,8 @@ export default function ChatBox() {
          <h2>Доступные собеседники</h2>
          {
             conversations.map(conversation => (
-               <div key={conversation._id} onClick={() => {setCurrentChat(conversation); auth.setNotification(false)}}>
-                  <Conversation conversation={conversation} userId={auth.userId} />
+               <div key={conversation._id} >
+                  <Conversation conversation={conversation} userId={auth.userId} onClick={() => {setCurrentChat(conversation); auth.setNotification(false)}} />
                </div>
             ))
          }
