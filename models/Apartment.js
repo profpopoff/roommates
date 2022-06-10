@@ -19,6 +19,8 @@ const ApartmentsSchema = new mongoose.Schema(
       rooms: { type: Number, required: true },
       landlordId: { type: String, required: true },
       roommates: [{ type: String }],
+      isOn: { type: Boolean, default: true },
+      apartmentType: { type: String, default: 'Flat' },
       reviews: [
          {
             userId: { type: String },

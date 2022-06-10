@@ -75,10 +75,11 @@ io.on('connection', (socket) => {
    })
 
    socket.on('new message', (newMessageRecieved) => {
-      
       if (!newMessageRecieved.members) return console.log('chat.users not defined')
       newMessageRecieved.members.forEach(user => {
-         if (user !== newMessageRecieved.sender) {socket.in(user).emit('message recieved', newMessageRecieved)}
+         if (user !== newMessageRecieved.sender) {
+            socket.in(user).emit('message recieved', newMessageRecieved)
+         }
          else {return}
          
       })
